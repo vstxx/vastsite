@@ -109,11 +109,23 @@ test('renders a plain download section and minimal footer', async () => {
   assert.match(footer, /Join our Discord and give feedback/);
   assert.match(footer, /icons\.svg#discord-icon/);
   assert.match(icons, /id="discord-icon"[\s\S]*?<path fill="currentColor"/);
+  assert.doesNotMatch(icons, /#aa3bff/i);
+  assert.match(icons, /stroke="#c272ff"/i);
   assert.doesNotMatch(cta, /Get Vast|Built for the open web|aria-label="Back to top"/);
   assert.match(css, /\.download__copy h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.download__card[\s\S]*margin: auto/);
   const downloadCardRule = css.match(/\.download__card\s*\{[\s\S]*?\}/)?.[0] ?? '';
   assert.doesNotMatch(downloadCardRule, /border|background|box-shadow/);
+});
+
+test('uses the higher-contrast Vast purple accent consistently', async () => {
+  const css = await read('src/index.css');
+
+  assert.match(css, /--accent:\s*#6900b5/i);
+  assert.match(css, /--accent-text:\s*#c272ff/i);
+  assert.match(css, /\.release__meta span[\s\S]*color:\s*var\(--accent-text\)/);
+  assert.match(css, /\.release-modal__label[\s\S]*color:\s*var\(--accent-text\)/);
+  assert.doesNotMatch(css, /rgba\(190,\s*165,\s*238,\s*0\.56\)/);
 });
 
 test('routes to local releases and the complete legal policy set', async () => {
