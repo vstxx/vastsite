@@ -10,7 +10,7 @@ const features = [
   'Page-linked notes',
   'Search across tabs, history, and bookmarks',
   'Validated shortcut configuration',
-  'No analytics or telemetry',
+  'No browsing telemetry',
   'Local-first data storage',
   'Sandboxed web content',
   'Context-isolated application interface',

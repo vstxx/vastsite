@@ -2,66 +2,85 @@ import { ArrowLeft } from 'lucide-react';
 import { useEffect } from 'react';
 import SiteFooter from './SiteFooter';
 
-type LegalKind = 'privacy' | 'copyright';
+type LegalKind = 'legal' | 'privacy' | 'copyright' | 'platform-terms' | 'publisher-terms' | 'publishing-policy';
 
 const notices = {
-  privacy: {
-    eyebrow: 'Legal',
-    title: 'Privacy Notice',
-    intro: 'Vast is built around privacy. This notice explains what the Vast website processes when you visit it or download a release.',
+  legal: {
+    eyebrow: 'Legal', title: 'Legal information',
+    intro: 'Legal and administrative information for Vast Browser and Vast Extensions.',
     sections: [
-      ['Information we collect', 'The Vast website does not use user accounts, advertising trackers or behavioral analytics. We do not intentionally collect personal information through forms or newsletters.'],
-      ['Technical data', 'Our hosting infrastructure may temporarily process standard request data such as your IP address, browser type, requested page and timestamp. This data may be used only to deliver the site, maintain reliability and prevent abuse.'],
-      ['Downloads and external links', 'Release downloads may generate ordinary server request logs. Links to GitHub or other third-party services are governed by the privacy terms of those services once you leave this website.'],
-      ['Changes to this notice', 'This notice may be updated when the website or its infrastructure changes. The current version will always be published on this page.'],
+      ['Products', 'Vast Browser and the Vast Extensions publishing platform.'],
+      ['Operator', 'Jan Nowacki'],
+      ['Legal & administrative contact', 'Use this official legal information page and the support channels published on vastbrowser.com. No separate legal email address is asserted here.'],
+      ['Privacy', 'The current Privacy Notice is available at vastbrowser.com/privacy.'],
+      ['Security', 'Security reporting guidance is published in the official Vast repository and documentation.'],
+    ],
+  },
+  privacy: {
+    eyebrow: 'Legal', title: 'Privacy Notice',
+    intro: 'Effective 24 August 2026. Vast collects no browsing telemetry. This notice separates the Browser, Relay, Extensions Hub, website, and independently published extensions.',
+    sections: [
+      ['Vast Browser', 'Vast does not send browsing history, visited URLs, searches, tabs, bookmarks, page content, passwords or account identity to Vast as product analytics. Browser data stays local unless the user deliberately invokes a separately disclosed network feature.'],
+      ['Vast Relay', 'When enabled, Relay receives a random installation UUID, running Vast version, cumulative launch count, and an instance kind of packaged, development, test or unknown. Relay derives first-seen and last-seen timestamps. It does not receive browsing activity.'],
+      ['Extensions Hub', 'The publisher platform processes GitHub identity/profile details, sessions and CSRF records, keyed IP hashes for rate limiting, D1/R2 listings and artifacts, review and audit records, versioned terms acceptances, and extension reports. Published artifacts and evidence may be retained for distribution, security, disputes and legal compliance.'],
+      ['Publisher extensions', "Extensions are independent software. Each listing must disclose requested permissions, data practices, remote services and a privacy-policy URL whenever data is transmitted or externally processed. Vast review does not replace the publisher's obligations."],
+      ['Website and downloads', 'Hosting providers may temporarily process ordinary request data needed to deliver pages, prevent abuse and serve downloads. GitHub and other external services apply their own notices after you leave this site.'],
+      ['Changes', 'This notice may be updated when the product or infrastructure changes. The current version is published on this page.'],
     ],
   },
   copyright: {
-    eyebrow: 'Legal',
-    title: 'Copyright Notice',
-    intro: `© ${new Date().getFullYear()} Vast. The website, visual identity and original content are protected by applicable copyright law.`,
+    eyebrow: 'Legal', title: 'Copyright/IP Notice',
+    intro: `Effective 24 August 2026. Copyright/IP notice for Vast-owned and third-party materials (${new Date().getFullYear()}).`,
     sections: [
-      ['Website content', 'Unless stated otherwise, the design, text, graphics, logos and other original materials on this website may not be reproduced, redistributed or presented as your own without prior permission.'],
-      ['Vast software', 'Vast software releases are provided under the license included with each build or source repository. That software license governs how the code and distributed binaries may be used.'],
-      ['Third-party materials', 'Third-party names, libraries, icons and other materials remain the property of their respective owners and are subject to their own licenses and terms.'],
-      ['Vast name and identity', 'The Vast name, wordmark and visual identity may not be used in a way that suggests endorsement, affiliation or an official release without permission.'],
+      ['Vast-owned source', 'The MIT License applies only to source code owned by Vast where the relevant repository identifies that license. It does not automatically cover every file shipped with the product.'],
+      ['Website content', 'Unless stated otherwise, original website design, text, graphics, logos and other Vast-owned materials may not be presented as your own or used to imply endorsement.'],
+      ['Third-party materials', 'Extensions, libraries, names, icons, screenshots and other third-party materials remain the property of their respective owners and are governed by their own licenses and terms.'],
+      ['Rights reports', 'Use the Report extension flow in the Extensions Hub for copyright, trademark, impersonation or other rights concerns. Reports receive human review and do not trigger automatic delisting.'],
+    ],
+  },
+  'platform-terms': {
+    eyebrow: 'Legal', title: 'Platform Terms',
+    intro: 'These terms describe use of the Vast website and Extensions Hub platform.',
+    sections: [
+      ['Acceptable use', 'Do not abuse the platform, evade security controls, upload unlawful material, impersonate others or interfere with review and distribution.'],
+      ['Extensions', 'Third-party extensions are independently published software. Review and signing reduce risk but do not guarantee that an extension is free of defects.'],
+      ['Enforcement', 'Vast may reject, suspend, delist or preserve evidence for extensions and accounts when required for user safety, policy enforcement or legal compliance. Decisions should remain auditable.'],
+      ['Legal operator', 'The platform operator is Jan Nowacki. Current legal and administrative information is published at vastbrowser.com/legal.'],
+    ],
+  },
+  'publisher-terms': {
+    eyebrow: 'Publishers', title: 'Publisher Terms',
+    intro: 'The authoritative, versioned Publisher Terms are presented by the Extensions Hub at acceptance time.',
+    sections: [
+      ['Ownership', 'Publishers retain ownership of their extensions and submitted materials.'],
+      ['Operational license', 'A publisher grants the non-exclusive operational rights needed to host, scan, validate, review, sign, distribute, update, display and preserve already-published copies and security evidence.'],
+      ['Warranty', 'At submission the publisher reconfirms ownership, accurate permissions and data disclosures, and the absence of malware, credential theft, infringement and undisclosed tracking.'],
+      ['Current terms', 'Open extensions.vastbrowser.com/legal/publisher-terms for the complete current text, version and acceptance hash.'],
+    ],
+  },
+  'publishing-policy': {
+    eyebrow: 'Publishers', title: 'Publishing Policy',
+    intro: 'Extensions must be safe, accurately described and reviewable.',
+    sections: [
+      ['Required disclosure', 'Listings must accurately state functionality, necessary permissions, data practices, remote services and ownership. External processing requires an HTTPS privacy-policy URL.'],
+      ['Prohibited behavior', 'Malware, credential theft, hidden tracking or mining, deceptive behavior, unlawful functionality, impersonation and infringement are prohibited.'],
+      ['Review', 'Packages receive strict archive, identity, path, manifest, permission and static-code checks. Dynamic code and WebAssembly are prohibited; obfuscated or minified source is escalated for manual review.'],
+      ['Reports', 'Public reports cover copyright, malware, illegal functionality, privacy abuse, impersonation and other violations. Reports are rate-limited and human-reviewed without automatic delisting.'],
     ],
   },
 } satisfies Record<LegalKind, { eyebrow: string; title: string; intro: string; sections: string[][] }>;
 
 export default function LegalPage({ kind }: { kind: LegalKind }) {
   const notice = notices[kind];
-
-  useEffect(() => {
-    document.title = 'Vast Browser';
-  }, [notice.title]);
-
+  useEffect(() => { document.title = `${notice.title} · Vast Browser`; }, [notice.title]);
   return (
     <div className="subpage-shell">
-      <header className="subpage-header">
-        <a className="vast-control" href="/">
-          <ArrowLeft aria-hidden="true" />
-          Back to Vast
-        </a>
-      </header>
-
+      <header className="subpage-header"><a className="vast-control" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a></header>
       <main className="legal-page">
-        <div className="legal-heading">
-          <p>{notice.eyebrow}</p>
-          <h1>{notice.title}</h1>
-          <span>{notice.intro}</span>
-        </div>
-
-        <div className="legal-sections">
-          {notice.sections.map(([title, body]) => (
-            <section key={title}>
-              <h2>{title}</h2>
-              <p>{body}</p>
-            </section>
-          ))}
-        </div>
+        <div className="legal-heading"><p>{notice.eyebrow}</p><h1>{notice.title}</h1><span>{notice.intro}</span></div>
+        <div className="legal-sections">{notice.sections.map(([title, body]) => <section key={title}><h2>{title}</h2><p>{body}</p></section>)}</div>
+        {kind === 'legal' && <nav className="legal-links" aria-label="Legal resources"><a href="/privacy">Privacy Notice</a><a href="https://docs.vastbrowser.com/security/" rel="noreferrer">Security documentation</a><a href="https://extensions.vastbrowser.com/legal/publisher-terms" rel="noreferrer">Publisher Terms</a></nav>}
       </main>
-
       <SiteFooter />
     </div>
   );

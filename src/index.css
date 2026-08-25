@@ -993,6 +993,27 @@ button {
   line-height: 1.75;
 }
 
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.legal-links a {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.82);
+  padding: 0.65rem 0.9rem;
+  text-decoration: none;
+}
+
+.legal-links a:hover,
+.legal-links a:focus-visible {
+  border-color: rgba(190, 116, 255, 0.65);
+  color: #fff;
+}
+
 .subpage-shell > .footer {
   margin-top: auto;
 }

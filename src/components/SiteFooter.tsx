@@ -8,8 +8,12 @@ export default function SiteFooter() {
       <div className="footer__links">
         <span>Vast, Infinite By Design</span>
         <a href="https://docs.vastbrowser.com">Documentation</a>
+        <a href="/legal">Legal information</a>
         <a href="/privacy">Privacy Notice</a>
-        <a href="/copyright">Copyright Notice © {new Date().getFullYear()}</a>
+        <a href="/copyright">Copyright/IP Notice</a>
+        <a href="/platform-terms">Platform Terms</a>
+        <a href="/publisher-terms">Publisher Terms</a>
+        <a href="/publishing-policy">Publishing Policy</a>
       </div>
     </footer>
   );

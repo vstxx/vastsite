@@ -35,7 +35,7 @@ export default function SceneDetails() {
           <span id="why-answer" className="why__continuation-copy">
             <span>
               Everything important stays on your device and remains easy to restore. Vast keeps
-              your work private and does not rely on analytics or telemetry to understand how you browse.
+              your work private. Vast collects no browsing telemetry. Optional services are described separately.
             </span>
             <span>
               Sessions can be revisited when you need them, while inactive tabs are managed carefully

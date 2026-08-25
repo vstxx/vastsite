@@ -73,7 +73,7 @@ test('renders an accessible expandable Why Vast explanation', async () => {
   assert.match(details, /why__continuation/);
   assert.match(details, /Continue reading/);
   assert.match(details, /Your browser should support the way you think/);
-  assert.match(details, /does not rely on analytics or telemetry/);
+  assert.match(details, /Vast collects no browsing telemetry/);
   assert.match(details, /The result is a browser that feels calm/);
   assert.doesNotMatch(details, /Built for a calmer web/);
   assert.match(css, /mask-image: linear-gradient/);
@@ -100,7 +100,10 @@ test('renders a plain download section and minimal footer', async () => {
   assert.match(cta, /target="_blank"/);
   assert.match(footer, /Vast, Infinite By Design/);
   assert.match(footer, /Privacy Notice/);
-  assert.match(footer, /Copyright Notice/);
+  assert.match(footer, /Copyright\/IP Notice/);
+  assert.match(footer, /Publisher Terms/);
+  assert.match(footer, /Publishing Policy/);
+  assert.match(footer, /docs\.vastbrowser\.com/);
   assert.match(footer, /discord\.gg\/f7bnZ3cmq/);
   assert.match(footer, /Join our Discord and give feedback/);
   assert.doesNotMatch(cta, /Get Vast|Built for the open web|aria-label="Back to top"/);
@@ -110,7 +113,7 @@ test('renders a plain download section and minimal footer', async () => {
   assert.doesNotMatch(downloadCardRule, /border|background|box-shadow/);
 });
 
-test('routes to local releases, privacy and copyright pages', async () => {
+test('routes to local releases and the complete legal policy set', async () => {
   const [app, releases, legal, manifest] = await Promise.all([
     read('src/App.tsx'),
     read('src/components/ReleasesPage.tsx'),
@@ -119,8 +122,12 @@ test('routes to local releases, privacy and copyright pages', async () => {
   ]);
 
   assert.match(app, /path === '\/releases'/);
+  assert.match(app, /path === '\/legal'/);
   assert.match(app, /path === '\/privacy'/);
   assert.match(app, /path === '\/copyright'/);
+  assert.match(app, /path === '\/platform-terms'/);
+  assert.match(app, /path === '\/publisher-terms'/);
+  assert.match(app, /path === '\/publishing-policy'/);
   assert.match(releases, /fetch\('\/downloads\/manifest\.json'\)/);
   assert.match(releases, /No public builds yet/);
   assert.match(releases, /Release Information/);
@@ -138,8 +145,12 @@ test('routes to local releases, privacy and copyright pages', async () => {
   assert.match(releases, /aria-modal="true"/);
   assert.match(releases, /event\.key === 'Escape'/);
   assert.match(releases, /document\.body\.style\.overflow = 'hidden'/);
-  assert.match(legal, /Information we collect/);
-  assert.match(legal, /Copyright Notice/);
+  assert.match(legal, /Vast collects no browsing telemetry/);
+  assert.match(legal, /Copyright\/IP Notice/);
+  assert.match(legal, /Publisher Terms/);
+  assert.match(legal, /Publishing Policy/);
+  assert.match(legal, /\['Operator', 'Jan Nowacki'\]/);
+  assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
   assert.equal(releaseManifest.releases[0].version, 'Beta 0.1.5');
   assert.equal(releaseManifest.releases[0].channel, 'Official');
