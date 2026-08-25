@@ -152,9 +152,11 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /\['Operator', 'Jan Nowacki'\]/);
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
-  assert.equal(releaseManifest.releases[0].version, 'Beta 0.1.5');
-  assert.equal(releaseManifest.releases[0].channel, 'Official');
-  assert.match(releaseManifest.releases[0].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
+  assert.equal(releaseManifest.releases[0].version, 'Beta 0.2.5');
+  assert.equal(releaseManifest.releases[0].channel, 'Public unsigned beta');
+  assert.match(releaseManifest.releases[0].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
+  assert.equal(releaseManifest.releases[1].version, 'Beta 0.1.5');
+  assert.match(releaseManifest.releases[1].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
 });
 
 test('uses the dark Vast control style for buttons', async () => {
