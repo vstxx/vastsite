@@ -84,10 +84,11 @@ test('renders an accessible expandable Why Vast explanation', async () => {
 });
 
 test('renders a plain download section and minimal footer', async () => {
-  const [cta, footer, css] = await Promise.all([
+  const [cta, footer, css, icons] = await Promise.all([
     read('src/components/SceneCTA.tsx'),
     read('src/components/SiteFooter.tsx'),
     read('src/index.css'),
+    read('public/icons.svg'),
   ]);
 
   assert.match(cta, />\s*Releases\s*/);
@@ -106,6 +107,8 @@ test('renders a plain download section and minimal footer', async () => {
   assert.match(footer, /docs\.vastbrowser\.com/);
   assert.match(footer, /discord\.gg\/f7bnZ3cmq/);
   assert.match(footer, /Join our Discord and give feedback/);
+  assert.match(footer, /icons\.svg#discord-icon/);
+  assert.match(icons, /id="discord-icon"[\s\S]*?<path fill="currentColor"/);
   assert.doesNotMatch(cta, /Get Vast|Built for the open web|aria-label="Back to top"/);
   assert.match(css, /\.download__copy h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.download__card[\s\S]*margin: auto/);
@@ -133,6 +136,10 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /Release Information/);
   assert.match(releases, /release-modal__changelog/);
   assert.match(releases, /Changes since 0\.1\.5/);
+  assert.match(releases, /aria-expanded=\{expandedChangelog\}/);
+  assert.match(releases, /Show full changelog/);
+  assert.match(releases, /Collapse changelog/);
+  assert.ok(releases.indexOf('release-modal__download') < releases.indexOf('release-modal__changelog'));
   assert.doesNotMatch(releases, /<p>Releases<\/p>/);
   assert.match(releases, /<h1>Vast Releases\.<\/h1>/);
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);

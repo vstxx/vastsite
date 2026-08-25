@@ -842,8 +842,10 @@ button {
 
 .release-modal__changelog {
   display: grid;
-  gap: 26px;
-  margin-top: 30px;
+  gap: 20px;
+  margin-top: 32px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .release-modal__changelog h3,
@@ -852,13 +854,66 @@ button {
 }
 
 .release-modal__changelog h3 {
+  font: inherit;
+}
+
+.release-modal__changelog-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0;
+  border: 0;
   color: rgba(244, 241, 247, 0.84);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.release-modal__changelog-toggle > span:first-child {
   font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.015em;
 }
 
-.release-modal__changelog > div {
+.release-modal__changelog-toggle > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(210, 192, 242, 0.58);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.release-modal__changelog-toggle svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.release-modal__changelog.is-expanded .release-modal__changelog-toggle svg {
+  transform: rotate(180deg);
+}
+
+.release-modal__changelog-content {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  max-height: 230px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+}
+
+.release-modal__changelog.is-expanded .release-modal__changelog-content {
+  max-height: none;
+  mask-image: none;
+}
+
+.release-modal__changelog-content > div {
   display: grid;
   gap: 10px;
 }

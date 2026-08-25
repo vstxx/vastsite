@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Info, MessageCircle, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Download, Info, MessageCircle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SiteFooter from './SiteFooter';
 
@@ -36,6 +36,7 @@ export default function ReleasesPage() {
   const [loaded, setLoaded] = useState(false);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null);
+  const [expandedChangelog, setExpandedChangelog] = useState(false);
 
   useEffect(() => {
     document.title = 'Vast Browser';
@@ -121,7 +122,10 @@ export default function ReleasesPage() {
               </div>
 
               <div className="release__files">
-                <button className="release-info-trigger" type="button" onClick={() => setSelectedRelease(release)}>
+                <button className="release-info-trigger" type="button" onClick={() => {
+                  setExpandedChangelog(false);
+                  setSelectedRelease(release);
+                }}>
                   <Info aria-hidden="true" />
                   Release Information
                 </button>
@@ -153,20 +157,6 @@ export default function ReleasesPage() {
             <h2 id="release-modal-title">Vast {selectedRelease.version}</h2>
             {selectedRelease.description && <p className="release-modal__description">{selectedRelease.description}</p>}
 
-            {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
-              <section className="release-modal__changelog" aria-labelledby="release-changelog-title">
-                <h3 id="release-changelog-title">Changes since 0.1.5</h3>
-                {selectedRelease.changelog.map((section) => (
-                  <div key={section.title}>
-                    <h4>{section.title}</h4>
-                    <ul>
-                      {section.items.map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                  </div>
-                ))}
-              </section>
-            )}
-
             <dl className="release-modal__facts">
               <div><dt>Version</dt><dd>{selectedRelease.version}</dd></div>
               <div><dt>Published</dt><dd>{selectedRelease.date}</dd></div>
@@ -185,6 +175,36 @@ export default function ReleasesPage() {
                 <Download aria-hidden="true" />
                 Download for Windows
               </button>
+            )}
+
+            {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
+              <section className={`release-modal__changelog${expandedChangelog ? ' is-expanded' : ''}`} aria-labelledby="release-changelog-title">
+                <h3 id="release-changelog-title">
+                  <button
+                    className="release-modal__changelog-toggle"
+                    type="button"
+                    aria-expanded={expandedChangelog}
+                    aria-controls="release-changelog-content"
+                    onClick={() => setExpandedChangelog((expanded) => !expanded)}
+                  >
+                    <span>Changes since 0.1.5</span>
+                    <span>
+                      {expandedChangelog ? 'Collapse changelog' : 'Show full changelog'}
+                      <ChevronDown aria-hidden="true" />
+                    </span>
+                  </button>
+                </h3>
+                <div className="release-modal__changelog-content" id="release-changelog-content">
+                  {selectedRelease.changelog.map((section) => (
+                    <div key={section.title}>
+                      <h4>{section.title}</h4>
+                      <ul>
+                        {section.items.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </section>
             )}
           </section>
         </div>
