@@ -3,12 +3,67 @@
     {
       "version": "Beta 0.2.5",
       "date": "2026-08-25",
-      "channel": "Public unsigned beta",
-      "description": "Vast Beta 0.2.5 is the current public Windows test build, with a flatter Dim interface, expanded Ctrl-K controls, and release infrastructure improvements.",
+      "channel": "Official",
+      "changelog": [
+        {
+          "title": "Interface and everyday use",
+          "items": [
+            "Added the experimental Purist layout with a compact Topbar Island, functional tab strip, shared browser controls, and browser-owned overscroll space.",
+            "Made experimental layouts disappear when Experimental features is disabled and added a safe Horizontal fallback for stale Purist profiles.",
+            "Flattened the Dim theme with shallower shadows and more restrained depth, and increased the Vast logo size on New Tab.",
+            "Expanded Ctrl-K with direct controls for ad blocking, tracker blocking, tracking-parameter removal, third-party cookies, fingerprinting protection, HTTPS-only mode, forced dark mode, and spoofing tools.",
+            "Improved the Command Palette selection and focus outline, keyboard behavior, and settings-action feedback.",
+            "Updated Smart Unload surfaces for Dark, Dim, and Light themes and polished split view, window controls, navigation, hover/focus states, and narrow layouts."
+          ]
+        },
+        {
+          "title": "Extensions and Extension Hub",
+          "items": [
+            "Added an integrated Extensions page and lifecycle manager for Chrome-compatible, Vast-native, and hybrid extensions without regressing normal Chromium extension support.",
+            "Added profile-aware installation state, enable/disable handling, permissions, storage, content-script registration, background lifecycles, toolbar contributions, panels, and trusted package updates.",
+            "Connected Vast Explore to the live Extension Hub catalog with signed .vext package verification and a shared strict Chrome match-pattern parser.",
+            "Added IDU+ by Vast publishing and runtime integration for supported idu.edu.pl portals, with scoped permissions, duplicate-injection protection, persistence, and lifecycle cleanup.",
+            "Expanded the publisher platform with listing creation, package validation, review and release tooling, trusted-admin approval, versioned Publisher Terms, data-practice declarations, and abuse reporting.",
+            "Hardened Hub validation for Windows paths, archive traversal, case collisions, ZIP bombs, dynamic JavaScript, remote code, WebAssembly, and obfuscation requiring manual review.",
+            "Added canonical image processing, stronger edge security headers, auditable reports, legal policy pages, and GET-only download counting."
+          ]
+        },
+        {
+          "title": "Privacy, security, and reliability",
+          "items": [
+            "Updated the packaged runtime to Electron 43.4.1 with Chromium 150.0.7871.224, Node 24.18.1, and V8 15.0.245.28.",
+            "Hardened production packages with verified Electron Fuses, selective obfuscation evidence, stricter release metadata, and fail-closed capability checks.",
+            "Strengthened Labs IPC authorization, password-vault session locking, guest autofill isolation, extension trust boundaries, and packaged-app CSP.",
+            "Neutralized spreadsheet formula injection in exported password CSV fields and expanded Avidae SSRF, redirect, private-address, token-redaction, and child-process cleanup protections.",
+            "Added explicit Relay staging metadata and instance kinds so packaged, development, and test installations remain distinguishable and test cleanup cannot remove production records.",
+            "Added a passive signed Vast Notices configuration that remains disabled unless an HTTPS origin and pinned Ed25519 key are explicitly supplied.",
+            "Made the Cat Addon a central build capability; it is disabled and absent from the 0.2.5 public package, including its services, UI, assets, and filesystem probes."
+          ]
+        },
+        {
+          "title": "Video & Audio and FFmpeg",
+          "items": [
+            "Bundled the self-contained Video & Audio runtime with its required Python service and Playwright Chromium payload instead of silently downloading components on first use.",
+            "Replaced the previous FFmpeg binary dependency with a reproducible Vast FFmpeg 9.0.1 GPL build, pinned configuration, build provenance, capabilities manifest, and corresponding source archive.",
+            "Added functional FFmpeg and FFprobe verification for encoding, decoding, probing, filters, protocols, subtitles, metadata, thumbnails, and failure behavior.",
+            "Added runtime integrity checks, safer local-service startup and shutdown, and stricter packaged-resource and distribution-size verification."
+          ]
+        },
+        {
+          "title": "Updater, packaging, and release quality",
+          "items": [
+            "Normalized the public version to 0.2.5 with 0.1.5 recorded as the previous public release across package metadata, workflows, updater manifests, and artifact names.",
+            "Added a single-file updater and verified update ZIP that check SHA-256 before replacing runtime files while preserving the browser profile and Relay identity.",
+            "Added a real 0.1.5-to-0.2.5 isolated upgrade harness covering bookmarks, tabs, vault data, cookies, Chromium Local State, and Relay installation identity.",
+            "Added installer, portable, updater, update bundle, blockmap, exact-source manifests, SHA-256/SHA-512 lists, FFmpeg provenance, and corresponding source to the public release.",
+            "Expanded Windows CI and release gates for Electron versions and fuses, packaged resources, ASAR contents, extension E2E, app smoke, updater behavior, Avidae, Relay, secret scanning, and distribution budgets.",
+            "Removed tracked test captures, development baselines, obsolete release archives, and other non-product artifacts from the shipping source tree."
+          ]
+        }
+      ],
       "notes": [
         "This beta is intentionally unsigned. Windows will show Unknown publisher and SmartScreen may warn.",
-        "Includes the Windows installer and a portable build.",
-        "The release includes SHA-256/SHA-512 checksums, exact-source metadata, updater artifacts, and FFmpeg corresponding source."
+        "Verify the published SHA-256 or SHA-512 checksum before running the installer, portable build, or updater."
       ],
       "files": [
         {
@@ -28,7 +83,7 @@
     {
       "version": "Beta 0.1.5",
       "date": "2026-08-18",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast Beta 0.1.5 is the current official public test build for Windows. It is intended for early testing and direct community feedback.",
       "notes": [
         "Early beta software may include unfinished features and unexpected issues.",

@@ -9,11 +9,17 @@ type ReleaseFile = {
   size?: string;
 };
 
+type ReleaseChangelogSection = {
+  title: string;
+  items: string[];
+};
+
 type Release = {
   version: string;
   date: string;
   channel?: string;
   description?: string;
+  changelog?: ReleaseChangelogSection[];
   notes?: string[];
   files: ReleaseFile[];
 };
@@ -146,6 +152,20 @@ export default function ReleasesPage() {
             <span className="release-modal__label">{selectedRelease.channel ?? 'Release'}</span>
             <h2 id="release-modal-title">Vast {selectedRelease.version}</h2>
             {selectedRelease.description && <p className="release-modal__description">{selectedRelease.description}</p>}
+
+            {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
+              <section className="release-modal__changelog" aria-labelledby="release-changelog-title">
+                <h3 id="release-changelog-title">Changes since 0.1.5</h3>
+                {selectedRelease.changelog.map((section) => (
+                  <div key={section.title}>
+                    <h4>{section.title}</h4>
+                    <ul>
+                      {section.items.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </section>
+            )}
 
             <dl className="release-modal__facts">
               <div><dt>Version</dt><dd>{selectedRelease.version}</dd></div>

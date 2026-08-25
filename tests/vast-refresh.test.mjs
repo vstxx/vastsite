@@ -131,6 +131,8 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /fetch\('\/downloads\/manifest\.json'\)/);
   assert.match(releases, /No public builds yet/);
   assert.match(releases, /Release Information/);
+  assert.match(releases, /release-modal__changelog/);
+  assert.match(releases, /Changes since 0\.1\.5/);
   assert.doesNotMatch(releases, /<p>Releases<\/p>/);
   assert.match(releases, /<h1>Vast Releases\.<\/h1>/);
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);
@@ -153,9 +155,18 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
   assert.equal(releaseManifest.releases[0].version, 'Beta 0.2.5');
-  assert.equal(releaseManifest.releases[0].channel, 'Public unsigned beta');
+  assert.equal(releaseManifest.releases[0].channel, 'Official');
   assert.match(releaseManifest.releases[0].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
+  assert.ok(releaseManifest.releases[0].changelog.length >= 5);
+  const changelog = releaseManifest.releases[0].changelog.flatMap((section) => section.items).join(' ');
+  assert.match(changelog, /Ctrl-K/);
+  assert.match(changelog, /Extension Hub/);
+  assert.match(changelog, /IDU\+ by Vast/);
+  assert.match(changelog, /Electron 43\.4\.1/);
+  assert.match(changelog, /FFmpeg 9\.0\.1/);
+  assert.match(changelog, /0\.1\.5-to-0\.2\.5/);
   assert.equal(releaseManifest.releases[1].version, 'Beta 0.1.5');
+  assert.equal(releaseManifest.releases[1].channel, 'Legacy');
   assert.match(releaseManifest.releases[1].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
 });
 
