@@ -31,12 +31,15 @@ type PendingDownload = {
 
 const DISCORD_URL = 'https://discord.gg/f7bnZ3cmq';
 
+const isLegacy = (release: Release) => (release.channel ?? '').trim().toLowerCase() === 'legacy';
+
 export default function ReleasesPage() {
   const [releases, setReleases] = useState<Release[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
   const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null);
   const [expandedChangelog, setExpandedChangelog] = useState(false);
+  const [showLegacy, setShowLegacy] = useState(false);
 
   useEffect(() => {
     document.title = 'Vast Browser';
@@ -89,6 +92,38 @@ export default function ReleasesPage() {
     setPendingDownload({ release, asset });
   };
 
+  const officialReleases = releases.filter((release) => !isLegacy(release));
+  const legacyReleases = releases.filter(isLegacy);
+
+  const renderRelease = (release: Release) => (
+    <article className="release" key={release.version}>
+      <div className="release__meta">
+        <div>
+          <h2>Vast {release.version}</h2>
+          {release.channel && <span>{release.channel}</span>}
+        </div>
+        <time dateTime={release.date}>{release.date}</time>
+      </div>
+
+      <div className="release__files">
+        <button className="release-info-trigger" type="button" onClick={() => {
+          setExpandedChangelog(false);
+          setSelectedRelease(release);
+        }}>
+          <Info aria-hidden="true" />
+          Release Information
+        </button>
+        {release.files.map((asset) => (
+          <button className="button" type="button" onClick={() => startDownload(release, asset)} key={asset.file}>
+            <Download aria-hidden="true" />
+            <span>{asset.label}</span>
+            {asset.size && <small>{asset.size}</small>}
+          </button>
+        ))}
+      </div>
+    </article>
+  );
+
   return (
     <div className="subpage-shell">
       <header className="subpage-header">
@@ -100,7 +135,7 @@ export default function ReleasesPage() {
 
       <main className="releases-page">
         <div className="subpage-heading">
-          <h1>Vast Releases.</h1>
+          <h1>Vast Releases</h1>
         </div>
 
         <div className="release-list" aria-live="polite">
@@ -111,34 +146,27 @@ export default function ReleasesPage() {
             </div>
           )}
 
-          {releases.map((release) => (
-            <article className="release" key={release.version}>
-              <div className="release__meta">
-                <div>
-                  <h2>Vast {release.version}</h2>
-                  {release.channel && <span>{release.channel}</span>}
-                </div>
-                <time dateTime={release.date}>{release.date}</time>
-              </div>
+          {officialReleases.map(renderRelease)}
 
-              <div className="release__files">
-                <button className="release-info-trigger" type="button" onClick={() => {
-                  setExpandedChangelog(false);
-                  setSelectedRelease(release);
-                }}>
-                  <Info aria-hidden="true" />
-                  Release Information
-                </button>
-                {release.files.map((asset) => (
-                  <button className="button" type="button" onClick={() => startDownload(release, asset)} key={asset.file}>
-                    <Download aria-hidden="true" />
-                    <span>{asset.label}</span>
-                    {asset.size && <small>{asset.size}</small>}
-                  </button>
-                ))}
-              </div>
-            </article>
-          ))}
+          {legacyReleases.length > 0 && (
+            <>
+              <button
+                className="release-legacy-toggle"
+                type="button"
+                aria-expanded={showLegacy}
+                aria-controls="legacy-releases"
+                onClick={() => setShowLegacy((value) => !value)}
+              >
+                {showLegacy ? 'Hide legacy releases' : 'Show legacy releases'}
+              </button>
+
+              {showLegacy && (
+                <div className="release-list__legacy" id="legacy-releases">
+                  {legacyReleases.map(renderRelease)}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </main>
 

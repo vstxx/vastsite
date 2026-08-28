@@ -23,13 +23,13 @@ const supportItems = [
   },
   {
     title: 'Security reports',
-    body: 'Use the dedicated security guidance for vulnerabilities or issues that could affect user safety. Do not disclose security-sensitive details in a public issue.',
-    href: 'https://docs.vastbrowser.com/security/',
-    label: 'Security guidance',
+    body: 'Report vulnerabilities privately through GitHub Private Vulnerability Reporting. Do not disclose security-sensitive details in a public issue, Discord message or extension report.',
+    href: 'https://github.com/vstxx/vast-public/security/advisories/new',
+    label: 'Report privately on GitHub',
   },
   {
     title: 'Privacy and legal',
-    body: 'Read the current Privacy Notice and legal information before sending any privacy or administrative request. Do not post personal data in public support channels.',
+    body: 'Read the current Privacy Notice and legal information before sending a privacy or administrative request. Vast does not publish a separate privacy email address; do not post identifiers or personal data in public support channels.',
     href: '/privacy',
     label: 'Privacy Notice',
   },

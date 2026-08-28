@@ -71,7 +71,7 @@ test('renders an accessible expandable Why Vast explanation', async () => {
   assert.match(details, /aria-expanded=\{open\}/);
   assert.match(details, /aria-controls="why-answer"/);
   assert.match(details, /why__continuation/);
-  assert.match(details, /Continue reading/);
+  assert.match(details, /Continue Reading/);
   assert.match(details, /Your browser should support the way you think/);
   assert.match(details, /Vast collects no browsing telemetry/);
   assert.match(details, /The result is a browser that feels calm/);
@@ -139,6 +139,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(app, /path === '\/releases'/);
   assert.match(app, /path === '\/legal'/);
   assert.match(app, /path === '\/privacy'/);
+  assert.match(app, /path === '\/support'/);
   assert.match(app, /path === '\/copyright'/);
   assert.match(app, /path === '\/platform-terms'/);
   assert.match(app, /path === '\/publisher-terms'/);
@@ -153,7 +154,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /Collapse changelog/);
   assert.ok(releases.indexOf('release-modal__download') < releases.indexOf('release-modal__changelog'));
   assert.doesNotMatch(releases, /<p>Releases<\/p>/);
-  assert.match(releases, /<h1>Vast Releases\.<\/h1>/);
+  assert.match(releases, /<h1>Vast Releases<\/h1>/);
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);
   assert.match(releases, /Your download has started/);
   assert.match(releases, /Report bugs on Discord/);
@@ -167,6 +168,10 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /event\.key === 'Escape'/);
   assert.match(releases, /document\.body\.style\.overflow = 'hidden'/);
   assert.match(legal, /Vast collects no browsing telemetry/);
+  const support = await read('src/components/SupportPage.tsx');
+  assert.match(support, /Private Vulnerability Reporting/);
+  assert.match(support, /security\/advisories\/new/);
+  assert.match(support, /does not publish a separate privacy email address/);
   assert.match(legal, /Copyright\/IP Notice/);
   assert.match(legal, /Publisher Terms/);
   assert.match(legal, /Publishing Policy/);

@@ -21,7 +21,7 @@ export default function SceneCTA() {
         transition={{ duration: reduced ? 0.3 : 1, ease: EASE }}
       >
         <div className="download__copy">
-          <h2 id="download-title">Download Vast.</h2>
+          <h2 id="download-title">Download Vast</h2>
         </div>
 
         <div className="download__actions">

@@ -2,6 +2,7 @@ import './index.css';
 import SceneCTA from './components/SceneCTA';
 import SceneDetails from './components/SceneDetails';
 import SceneLogo from './components/SceneLogo';
+import SceneStatement from './components/SceneStatement';
 import SceneVideo from './components/SceneVideo';
 import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
@@ -24,6 +25,7 @@ export default function App() {
       <div className="noise-overlay" aria-hidden="true" />
       <main id="top">
         <SceneLogo />
+        <SceneStatement />
         <SceneVideo />
         <SceneDetails />
         <SceneCTA />

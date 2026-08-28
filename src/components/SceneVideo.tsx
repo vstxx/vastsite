@@ -9,11 +9,11 @@ export default function SceneVideo() {
     target: sectionRef,
     offset: ['start end', 'center center'],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.9, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.62], reduced ? [1, 1] : [0.08, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [0.965, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.62], reduced ? [1, 1] : [0.2, 1]);
 
   return (
-    <section ref={sectionRef} className="film-section" aria-label="Vast animation">
+    <section ref={sectionRef} id="film" className="film-section" aria-label="Vast animation">
       <motion.div className="film" style={{ scale, opacity }}>
         <div className="film__fallback" aria-hidden="true">
           <span>coming soon</span>
