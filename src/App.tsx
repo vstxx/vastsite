@@ -5,11 +5,13 @@ import SceneLogo from './components/SceneLogo';
 import SceneVideo from './components/SceneVideo';
 import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
+import SupportPage from './components/SupportPage';
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
 
   if (path === '/releases') return <ReleasesPage />;
+  if (path === '/support') return <SupportPage />;
   if (path === '/legal') return <LegalPage kind="legal" />;
   if (path === '/privacy') return <LegalPage kind="privacy" />;
   if (path === '/copyright') return <LegalPage kind="copyright" />;
