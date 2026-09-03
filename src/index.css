@@ -807,17 +807,46 @@ button {
 .release__files {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
   margin-top: 30px;
 }
 
+.release-download {
+  flex: 0 0 auto;
+}
+
+.release-download--store {
+  min-width: 150px;
+  color: rgba(246, 244, 249, 0.9);
+  background: #111116;
+}
+
+.release-download--store:hover {
+  border-color: rgba(var(--accent-text-rgb), 0.44);
+  color: #fff;
+  background: rgba(var(--accent-rgb), 0.16);
+}
+
+.release-download--file {
+  min-width: 0;
+  height: 44px;
+  padding-inline: 16px;
+  border-radius: 13px;
+  color: rgba(246, 244, 249, 0.82);
+  background: #111116;
+  font-size: 12px;
+}
+
 .release-info-trigger {
-  min-height: 48px;
+  width: 48px;
+  height: 48px;
+  min-height: 0;
+  flex: 0 0 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 0 18px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 14px;
   color: rgba(242, 239, 247, 0.74);
@@ -834,10 +863,10 @@ button {
 }
 
 .release-info-trigger:hover {
-  transform: translateY(-1px);
-  border-color: rgba(var(--accent-text-rgb), 0.4);
+  transform: translateY(-2px);
+  border-color: rgba(var(--accent-text-rgb), 0.44);
   color: #fff;
-  background: #16151c;
+  background: rgba(var(--accent-rgb), 0.16);
 }
 
 .release-modal {
@@ -1048,9 +1077,28 @@ button {
   line-height: 1.6;
 }
 
-.release-modal__download {
-  width: 100%;
+.release-modal__downloads {
+  display: grid;
+  gap: 12px;
   margin-top: 30px;
+}
+
+.release-modal__downloads-label {
+  color: rgba(225, 221, 232, 0.34);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.release-modal__downloads > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.release-modal__downloads .release-download--file {
+  flex: 1 1 210px;
 }
 
 .download-notice {
@@ -1238,11 +1286,27 @@ button {
   }
 
   .release__files {
-    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .release-download--store {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
   .release-info-trigger {
+    width: 48px;
+  }
+
+  .release-modal__downloads > div {
+    flex-direction: column;
+  }
+
+  .release-modal__downloads .release-download--file {
     width: 100%;
+    flex-basis: auto;
   }
 
   .legal-sections section {

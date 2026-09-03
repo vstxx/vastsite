@@ -30,6 +30,7 @@ type PendingDownload = {
 };
 
 const DISCORD_URL = 'https://discord.gg/f7bnZ3cmq';
+const MICROSOFT_STORE_URL = 'https://apps.microsoft.com/detail/9MTWRJCKMDTX?hl=neutral&gl=PL&ocid=pdpshare';
 
 const isLegacy = (release: Release) => (release.channel ?? '').trim().toLowerCase() === 'legacy';
 
@@ -106,20 +107,16 @@ export default function ReleasesPage() {
       </div>
 
       <div className="release__files">
-        <button className="release-info-trigger" type="button" onClick={() => {
+        <a className="button release-download release-download--store" href={MICROSOFT_STORE_URL} target="_blank" rel="noreferrer">
+          <Download aria-hidden="true" />
+          <span>Download</span>
+        </a>
+        <button className="release-info-trigger" type="button" aria-label={`Release information for Vast ${release.version}`} title="Release Information" onClick={() => {
           setExpandedChangelog(false);
           setSelectedRelease(release);
         }}>
           <Info aria-hidden="true" />
-          Release Information
         </button>
-        {release.files.map((asset) => (
-          <button className="button" type="button" onClick={() => startDownload(release, asset)} key={asset.file}>
-            <Download aria-hidden="true" />
-            <span>{asset.label}</span>
-            {asset.size && <small>{asset.size}</small>}
-          </button>
-        ))}
       </div>
     </article>
   );
@@ -198,11 +195,19 @@ export default function ReleasesPage() {
               </ul>
             )}
 
-            {selectedRelease.files[0] && (
-              <button className="button release-modal__download" type="button" onClick={() => startDownload(selectedRelease, selectedRelease.files[0])}>
-                <Download aria-hidden="true" />
-                Download for Windows
-              </button>
+            {selectedRelease.files.length > 0 && (
+              <div className="release-modal__downloads" aria-label="Direct downloads">
+                <span className="release-modal__downloads-label">Direct downloads</span>
+                <div>
+                  {selectedRelease.files.map((asset) => (
+                    <button className="button release-download release-download--file" type="button" onClick={() => startDownload(selectedRelease, asset)} key={asset.file}>
+                      <Download aria-hidden="true" />
+                      <span>{asset.label}</span>
+                      {asset.size && <small>{asset.size}</small>}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
