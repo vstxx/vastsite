@@ -16,6 +16,7 @@ type ReleaseChangelogSection = {
 
 type Release = {
   version: string;
+  previousVersion?: string;
   date: string;
   channel?: string;
   description?: string;
@@ -220,7 +221,7 @@ export default function ReleasesPage() {
                     aria-controls="release-changelog-content"
                     onClick={() => setExpandedChangelog((expanded) => !expanded)}
                   >
-                    <span>Changes since 0.1.5</span>
+                    <span>Changes since {selectedRelease.previousVersion ?? 'the previous release'}</span>
                     <span>
                       {expandedChangelog ? 'Collapse changelog' : 'Show full changelog'}
                       <ChevronDown aria-hidden="true" />
@@ -255,7 +256,7 @@ export default function ReleasesPage() {
             <span className="release-modal__label">Vast {pendingDownload.release.version}</span>
             <h2 id="download-notice-title">Your download has started.</h2>
             <p id="download-notice-description" className="release-modal__description">
-              Vast is still in beta. If you find a bug or something does not feel right, please tell us on Discord. Your reports help us make every release more stable.
+              If you find a bug or something does not feel right, please tell us on Discord. Your reports help us make every release more stable.
             </p>
 
             <a className="download-notice__discord" href={DISCORD_URL} target="_blank" rel="noreferrer">

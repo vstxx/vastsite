@@ -154,7 +154,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.ok(releases.indexOf('release-info-trigger') < releases.indexOf('release-modal__downloads'));
   assert.doesNotMatch(releases, /<Info aria-hidden="true" \/>[\s\S]{0,40}Release Information/);
   assert.match(releases, /release-modal__changelog/);
-  assert.match(releases, /Changes since 0\.1\.5/);
+  assert.match(releases, /selectedRelease\.previousVersion/);
   assert.match(releases, /aria-expanded=\{expandedChangelog\}/);
   assert.match(releases, /Show full changelog/);
   assert.match(releases, /Collapse changelog/);
@@ -184,20 +184,25 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /\['Operator', 'Jan Nowacki'\]/);
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
-  assert.equal(releaseManifest.releases[0].version, 'Beta 0.2.5');
+  assert.equal(releaseManifest.releases[0].version, '0.2.7');
   assert.equal(releaseManifest.releases[0].channel, 'Official');
-  assert.match(releaseManifest.releases[0].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
-  assert.ok(releaseManifest.releases[0].changelog.length >= 5);
+  assert.equal(releaseManifest.releases[0].previousVersion, '0.2.5');
+  assert.match(releaseManifest.releases[0].files[0].url, /vast-public\/releases\/download\/v0\.2\.7/);
+  assert.equal(releaseManifest.releases[0].files[2].file, 'VastUpdater-0.2.7.exe');
+  assert.ok(releaseManifest.releases[0].changelog.length >= 7);
   const changelog = releaseManifest.releases[0].changelog.flatMap((section) => section.items).join(' ');
-  assert.match(changelog, /Ctrl-K/);
-  assert.match(changelog, /Extension Hub/);
-  assert.match(changelog, /IDU\+ by Vast/);
-  assert.match(changelog, /Electron 43\.4\.1/);
-  assert.match(changelog, /FFmpeg 9\.0\.1/);
-  assert.match(changelog, /0\.1\.5-to-0\.2\.5/);
-  assert.equal(releaseManifest.releases[1].version, 'Beta 0.1.5');
+  assert.match(changelog, /Password Manager v2|submission-intent/);
+  assert.match(changelog, /session.*PDF|PDF.*session/i);
+  assert.match(changelog, /Electron 44\.1\.0/);
+  assert.match(changelog, /Microsoft Store/);
+  assert.match(changelog, /0\.2\.5-to-0\.2\.7/);
+  assert.equal(releaseManifest.releases[1].version, 'Beta 0.2.5');
   assert.equal(releaseManifest.releases[1].channel, 'Legacy');
-  assert.match(releaseManifest.releases[1].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
+  assert.match(releaseManifest.releases[1].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
+  assert.equal(releaseManifest.releases[2].version, 'Beta 0.1.5');
+  assert.equal(releaseManifest.releases[2].channel, 'Legacy');
+  assert.match(releaseManifest.releases[2].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
+  assert.doesNotMatch(releases, /Vast is still in beta/);
 });
 
 test('uses the dark Vast control style for buttons', async () => {

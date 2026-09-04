@@ -1,9 +1,123 @@
 {
   "releases": [
     {
-      "version": "Beta 0.2.5",
-      "date": "2026-08-25",
+      "version": "0.2.7",
+      "previousVersion": "0.2.5",
+      "date": "2026-09-04",
       "channel": "Official",
+      "description": "Vast 0.2.7 is the current official Windows release, with a rebuilt credential system, session-aware PDF handling, Electron 44.1.0, and production-grade direct and Microsoft Store release gates.",
+      "changelog": [
+        {
+          "title": "Everyday browsing and interface",
+          "items": [
+            "Reworked the More Tabs control so it is vertically aligned, easier to scan, and exposes each hidden tab's state with a direct close action.",
+            "Redesigned the saved-logins fill menu and password-save prompt with Inter, calmer spacing, theme-aware Dark and Dim surfaces, and a smaller browser-native footprint.",
+            "Flattened and tightened the workspace icon and color picker, simplified Labs and Network Devices filters, and aligned mini-program headers with their actual product names.",
+            "Polished Session Timeline, Diagnostics, Network Devices, scan-log placement, panel scrolling, settings layout, dropdown positioning, and viewport-edge behavior.",
+            "Improved tab opening and pending-navigation ownership so new tabs, downloads, popups, and redirected navigations recover reliably instead of becoming blank or detached.",
+            "Changed clean-profile defaults: the opening animation and sound are off, bookmarks and New Tab quick links start empty, and the bookmarks bar is visible on all pages.",
+            "Preserved existing profiles and preferences through additive migrations; the clean defaults apply only to genuinely new profiles."
+          ]
+        },
+        {
+          "title": "Password Manager v2",
+          "items": [
+            "Replaced submit-equals-success capture with a stateful observed, edited, submission-intent, pending, success, failure, or unknown lifecycle.",
+            "Combined navigation, SPA history, form disappearance, validation, focus, field reappearance, and error-state evidence before offering Save or Update, reducing prompts after failed logins.",
+            "Added a reusable semantic field parser with token-aware autocomplete handling, confidence scoring, form association, labels, DOM position, and actual user interaction.",
+            "Excluded OTP, PIN, CVC/CVV, one-time-code, hidden honeypot, disabled, and read-only fields from account-password capture.",
+            "Added bounded, memory-only, origin/window/tab-scoped username-first correlation for multi-step email-then-password sign-ins and registrations.",
+            "Added signup and password-change resolution, matching confirmation checks, current-password account matching, deterministic username normalization, and duplicate-safe Save versus Update decisions.",
+            "Kept routine successful-login detection available when the management UI is locked while retaining fresh unlock requirements for reveal, copy, export, and other sensitive vault actions.",
+            "Made save decisions tab-scoped and non-blocking, retained Never for this site suppression, and avoided prompts or unnecessary rewrites for unchanged stored credentials."
+          ]
+        },
+        {
+          "title": "PDFs, downloads, and local files",
+          "items": [
+            "Rebuilt PDF loading around the originating webContents session so authenticated PDFs retain cookies, Referer, user agent, partition, and origin context.",
+            "Stopped avoidable second downloads by routing PDF responses through a scoped resource pipeline instead of navigating first and fetching again later.",
+            "Added MIME-aware PDF routing for signed and export URLs that do not end in .pdf, with validation when a PDF-looking URL returns HTML or an error.",
+            "Added bounded byte-range reads and a lower-memory viewer path, lazy thumbnail work, clearer render readiness, and actionable error/fallback behavior.",
+            "Moved Save/Download into a main-process operation with an observable result instead of a short-lived renderer Blob click.",
+            "Added Windows Open with > Vast registration for PDF files and support for dropping a local PDF directly onto the omnibar to open it in Vast PDF Viewer.",
+            "Restored download progress notifications and fixed browser navigation recovery after a download response."
+          ]
+        },
+        {
+          "title": "Privacy, isolation, and platform security",
+          "items": [
+            "Hardened guest ownership, origin binding, private-workspace rejection, secret lifetimes, and sensitive IPC policy for password capture and autofill.",
+            "Improved Spoofing Tools application and session policy while keeping each tool behind its own Labs switch and preserving Electron isolation guarantees.",
+            "Strengthened ad-blocking, tracking-parameter cleanup, external-window routing, popup ownership, and cross-tab navigation policy.",
+            "Added clear in-app Vast Services and Relay privacy disclosure with privacy, support, data controls, and local-first behavior kept consistent with the website.",
+            "Removed the unused Cat Addon implementation and assets from the source and distributed runtime, reducing unsupported code and package surface.",
+            "Rotated Extensions Hub signing infrastructure while retaining verification for existing packages and validating production catalog trust before release."
+          ]
+        },
+        {
+          "title": "Runtime and compatibility",
+          "items": [
+            "Updated to Electron 44.1.0 with Chromium 152.0.7977.65, Node 24.19.0, and V8 15.2.124.18-electron.0.",
+            "Included the Electron GPU-process fix for packaged AppX/MSIX SwiftShader fallback and added GPU-enabled launch-health checks that reject Application Error 1000 crashes.",
+            "Expanded Google sign-in, OAuth popup, permission, upload/download, PDF, restart, session-persistence, and browser-window routing coverage.",
+            "Improved controlled dropdown measurement and portal placement to prevent menus from escaping or jumping at viewport edges.",
+            "Kept the self-contained Video & Audio runtime, Playwright Chromium, bundled Python, FFmpeg capabilities, licenses, and corresponding source integrity-checked."
+          ]
+        },
+        {
+          "title": "Windows and Microsoft Store readiness",
+          "items": [
+            "Added a native x64 MSIX production pipeline using the reserved Vast Browser identity and corrected monotonic package version 1.2.8.0.",
+            "Separated direct and Microsoft Store distribution policy: direct builds retain the Vast updater, while Store builds rely on Microsoft Store updates.",
+            "Kept installed direct and Store builds on the same user-data location while portable builds remain isolated beside the executable.",
+            "Added installed-package launch, renderer, GPU, update, profile-preservation, and clean-uninstall validation with temporary CI-only package trust.",
+            "Hardened Default Apps registration and PDF Open With integration without writing generic HTTP/HTTPS class keys or Windows UserChoice state.",
+            "Made WACK parsing fail closed unless the complete final report explicitly passes, and tightened manifest, asset, identity, capability, and package inspection."
+          ]
+        },
+        {
+          "title": "Direct release, updater, and verification",
+          "items": [
+            "Promoted 0.2.7 as the stable direct release while retaining an explicit, isolated acknowledgement that these direct binaries are intentionally unsigned.",
+            "Added a real public 0.2.5-to-0.2.7 upgrade test covering the downloaded historical package, updater execution, runtime version, cookies, vault files, profile state, and Relay identity preservation.",
+            "Added clean install, launch, Default Apps registration, recursive PE inventory, silent uninstall, orphan cleanup, shortcut cleanup, and protected-registry preservation E2E.",
+            "Made Authenticode and SHA-256 checks independent of optional PowerShell modules/cmdlets and rejected blank, ambiguous, or stderr-tainted signature results.",
+            "Required production Relay D1 check-in cleanup, production Extensions Hub trust verification, full-history secret scanning, package budgets, fuses, provenance, and exact-source metadata.",
+            "Published installer, portable build, updater, full update ZIP, manifests, SHA-256/SHA-512 lists, FFmpeg provenance, and corresponding source, then re-downloaded and re-verified the public artifacts."
+          ]
+        }
+      ],
+      "notes": [
+        "This official direct release is intentionally unsigned. Windows will show Unknown publisher and SmartScreen may warn.",
+        "Verify the published SHA-256 or SHA-512 checksum before running the installer, portable build, or updater."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.2.7.exe",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.2.7/Vast-Setup-0.2.7.exe",
+          "size": "324 MB"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.2.7-Portable.exe",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.2.7/Vast-0.2.7-Portable.exe",
+          "size": "273 MB"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.2.7.exe",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.2.7/VastUpdater-0.2.7.exe",
+          "size": "35.1 MB"
+        }
+      ]
+    },
+    {
+      "version": "Beta 0.2.5",
+      "previousVersion": "0.1.5",
+      "date": "2026-08-25",
+      "channel": "Legacy",
       "changelog": [
         {
           "title": "Interface and everyday use",
@@ -84,7 +198,7 @@
       "version": "Beta 0.1.5",
       "date": "2026-08-18",
       "channel": "Legacy",
-      "description": "Vast Beta 0.1.5 is the current official public test build for Windows. It is intended for early testing and direct community feedback.",
+      "description": "Vast Beta 0.1.5 was an early public Windows test build and is retained for historical access.",
       "notes": [
         "Early beta software may include unfinished features and unexpected issues.",
         "This release is available as a Windows installer."
