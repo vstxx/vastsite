@@ -8,16 +8,20 @@ export default function SceneDetails() {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion() ?? false;
   const inView = useInView(ref, { once: true, margin: '-18% 0px' });
+  const titleHidden = reduced ? { opacity: 0 } : { opacity: 0, y: 30, filter: 'blur(12px)' };
+  const titleVisible = reduced ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' };
 
   return (
     <section ref={ref} className="why" aria-labelledby="why-title">
-      <motion.div
-        className="why__inner"
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 48, filter: 'blur(10px)' }}
-        animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-        transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
-      >
-        <h2 id="why-title">Why should I actually use Vast?</h2>
+      <div className="why__inner">
+        <motion.h2
+          id="why-title"
+          initial={titleHidden}
+          animate={inView ? titleVisible : {}}
+          transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
+        >
+          Why should I actually use Vast?
+        </motion.h2>
         <p className="why__intro">
           Your browser should support the way you think without competing for your attention.
           Vast keeps tabs, research, notes and sessions in one calm, private workspace, so the
@@ -53,7 +57,7 @@ export default function SceneDetails() {
             {open ? 'Show less' : 'Continue Reading'}
           </span>
         </button>
-      </motion.div>
+      </div>
     </section>
   );
 }

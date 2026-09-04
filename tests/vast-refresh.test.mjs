@@ -80,11 +80,12 @@ test('renders an accessible expandable Why Vast explanation', async () => {
   assert.match(css, /\.why__continuation\.is-open/);
   assert.match(css, /\.why__continuation\.is-open[\s\S]*max-height: 900px/);
   const whyInnerRule = css.match(/\.why__inner\s*\{[\s\S]*?\}/)?.[0] ?? '';
-  assert.match(whyInnerRule, /border-radius/);
-  assert.match(whyInnerRule, /backdrop-filter/);
+  assert.doesNotMatch(whyInnerRule, /border|background|backdrop-filter/);
+  assert.match(details, /initial=\{titleHidden\}/);
+  assert.match(details, /filter: 'blur\(12px\)'/);
 });
 
-test('renders a glass download section and minimal footer', async () => {
+test('renders an open download section and minimal footer', async () => {
   const [cta, footer, css, icons] = await Promise.all([
     read('src/components/SceneCTA.tsx'),
     read('src/components/SiteFooter.tsx'),
@@ -116,8 +117,9 @@ test('renders a glass download section and minimal footer', async () => {
   assert.match(css, /\.download__copy h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.download__card[\s\S]*margin: auto/);
   const downloadCardRule = css.match(/\.download__card\s*\{[\s\S]*?\}/)?.[0] ?? '';
-  assert.match(downloadCardRule, /border-radius/);
-  assert.match(downloadCardRule, /backdrop-filter/);
+  assert.doesNotMatch(downloadCardRule, /border|background|box-shadow|backdrop-filter/);
+  assert.match(cta, /initial=\{titleHidden\}/);
+  assert.match(cta, /filter: 'blur\(12px\)'/);
 });
 
 test('uses the higher-contrast Vast purple accent consistently', async () => {

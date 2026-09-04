@@ -11,20 +11,29 @@ export default function SceneCTA() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion() ?? false;
   const inView = useInView(ref, { once: true, margin: '-15% 0px' });
+  const titleHidden = reduced ? { opacity: 0 } : { opacity: 0, y: 30, filter: 'blur(12px)' };
+  const titleVisible = reduced ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' };
 
   return (
     <section ref={ref} className="download" aria-labelledby="download-title">
-      <motion.div
-        className="download__card"
-        initial={reduced ? { opacity: 0 } : { opacity: 0, y: 42, scale: 0.98 }}
-        animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-        transition={{ duration: reduced ? 0.3 : 1, ease: EASE }}
-      >
+      <div className="download__card">
         <div className="download__copy">
-          <h2 id="download-title">Download Vast</h2>
+          <motion.h2
+            id="download-title"
+            initial={titleHidden}
+            animate={inView ? titleVisible : {}}
+            transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
+          >
+            Download Vast
+          </motion.h2>
         </div>
 
-        <div className="download__actions">
+        <motion.div
+          className="download__actions"
+          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: reduced ? 0.3 : 0.9, ease: EASE, delay: reduced ? 0 : 0.18 }}
+        >
           <a className="button button--primary" href="/releases">
             <Download aria-hidden="true" />
             Releases
@@ -37,8 +46,8 @@ export default function SceneCTA() {
             <BookOpen aria-hidden="true" />
             Documentation
           </a>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       <SiteFooter />
     </section>
