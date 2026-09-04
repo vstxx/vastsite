@@ -80,10 +80,11 @@ test('renders an accessible expandable Why Vast explanation', async () => {
   assert.match(css, /\.why__continuation\.is-open/);
   assert.match(css, /\.why__continuation\.is-open[\s\S]*max-height: 900px/);
   const whyInnerRule = css.match(/\.why__inner\s*\{[\s\S]*?\}/)?.[0] ?? '';
-  assert.doesNotMatch(whyInnerRule, /border/);
+  assert.match(whyInnerRule, /border-radius/);
+  assert.match(whyInnerRule, /backdrop-filter/);
 });
 
-test('renders a plain download section and minimal footer', async () => {
+test('renders a glass download section and minimal footer', async () => {
   const [cta, footer, css, icons] = await Promise.all([
     read('src/components/SceneCTA.tsx'),
     read('src/components/SiteFooter.tsx'),
@@ -115,7 +116,8 @@ test('renders a plain download section and minimal footer', async () => {
   assert.match(css, /\.download__copy h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.download__card[\s\S]*margin: auto/);
   const downloadCardRule = css.match(/\.download__card\s*\{[\s\S]*?\}/)?.[0] ?? '';
-  assert.doesNotMatch(downloadCardRule, /border|background|box-shadow/);
+  assert.match(downloadCardRule, /border-radius/);
+  assert.match(downloadCardRule, /backdrop-filter/);
 });
 
 test('uses the higher-contrast Vast purple accent consistently', async () => {
@@ -148,17 +150,21 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /No public builds yet/);
   assert.match(releases, /Release Information/);
   assert.match(releases, /9MTWRJCKMDTX/);
-  assert.match(releases, /release-download--store/);
-  assert.match(releases, /release-download--file/);
-  assert.ok(releases.indexOf('release-download--store') < releases.indexOf('release-info-trigger'));
-  assert.ok(releases.indexOf('release-info-trigger') < releases.indexOf('release-modal__downloads'));
+  assert.match(releases, /release-download-menu__panel/);
+  assert.match(releases, /Download Installer/);
+  assert.match(releases, /Download Portable/);
+  assert.match(releases, /Microsoft Store/);
+  assert.match(releases, /aria-haspopup="menu"/);
+  assert.match(releases, /role="menu"/);
+  assert.ok(releases.indexOf('release-download-menu') < releases.indexOf('release-info-trigger'));
+  assert.doesNotMatch(releases, /release-modal__downloads/);
+  assert.doesNotMatch(releases, /Direct downloads/);
   assert.doesNotMatch(releases, /<Info aria-hidden="true" \/>[\s\S]{0,40}Release Information/);
   assert.match(releases, /release-modal__changelog/);
   assert.match(releases, /selectedRelease\.previousVersion/);
   assert.match(releases, /aria-expanded=\{expandedChangelog\}/);
   assert.match(releases, /Show full changelog/);
   assert.match(releases, /Collapse changelog/);
-  assert.ok(releases.indexOf('release-modal__downloads') < releases.indexOf('release-modal__changelog'));
   assert.doesNotMatch(releases, /<p>Releases<\/p>/);
   assert.match(releases, /<h1>Vast Releases<\/h1>/);
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);
@@ -205,12 +211,13 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.doesNotMatch(releases, /Vast is still in beta/);
 });
 
-test('uses the dark Vast control style for buttons', async () => {
+test('uses the rounded glass Vast control style for buttons', async () => {
   const css = await read('src/index.css');
   const buttonRule = css.match(/\.button\s*\{[\s\S]*?\}/)?.[0] ?? '';
 
-  assert.match(buttonRule, /border-radius: 14px/);
-  assert.match(buttonRule, /background: #121217/);
+  assert.match(buttonRule, /border-radius: 17px/);
+  assert.match(buttonRule, /background: var\(--glass-surface\)/);
+  assert.match(buttonRule, /backdrop-filter: blur\(18px\)/);
   assert.match(buttonRule, /font-weight: 600/);
   assert.doesNotMatch(buttonRule, /border-radius: 999px/);
 });

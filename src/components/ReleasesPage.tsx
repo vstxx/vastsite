@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, Download, Info, MessageCircle, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Download, Info, MessageCircle, Package, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SiteFooter from './SiteFooter';
 
@@ -42,6 +42,7 @@ export default function ReleasesPage() {
   const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null);
   const [expandedChangelog, setExpandedChangelog] = useState(false);
   const [showLegacy, setShowLegacy] = useState(false);
+  const [openDownloadMenu, setOpenDownloadMenu] = useState<string | null>(null);
 
   useEffect(() => {
     document.title = 'Vast Browser';
@@ -80,8 +81,29 @@ export default function ReleasesPage() {
     };
   }, [selectedRelease, pendingDownload]);
 
+  useEffect(() => {
+    if (!openDownloadMenu) return;
+
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-download-menu]')) {
+        setOpenDownloadMenu(null);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpenDownloadMenu(null);
+    };
+
+    document.addEventListener('pointerdown', closeOnOutsidePress);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePress);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [openDownloadMenu]);
+
   const startDownload = (release: Release, asset: ReleaseFile) => {
     setSelectedRelease(null);
+    setOpenDownloadMenu(null);
 
     const downloadLink = document.createElement('a');
     downloadLink.href = asset.url ?? `/downloads/${asset.file}`;
@@ -97,8 +119,14 @@ export default function ReleasesPage() {
   const officialReleases = releases.filter((release) => !isLegacy(release));
   const legacyReleases = releases.filter(isLegacy);
 
-  const renderRelease = (release: Release) => (
-    <article className="release" key={release.version}>
+  const renderRelease = (release: Release) => {
+    const portable = release.files.find((asset) => /portable/i.test(`${asset.label} ${asset.file}`));
+    const installer = release.files.find((asset) => /installer|setup/i.test(`${asset.label} ${asset.file}`))
+      ?? release.files.find((asset) => !/portable|updater/i.test(`${asset.label} ${asset.file}`));
+    const isCurrentRelease = release === officialReleases[0];
+    const menuId = `download-menu-${release.version.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+
+    return <article className={`release${openDownloadMenu === release.version ? ' is-download-open' : ''}`} key={release.version}>
       <div className="release__meta">
         <div>
           <h2>Vast {release.version}</h2>
@@ -108,19 +136,53 @@ export default function ReleasesPage() {
       </div>
 
       <div className="release__files">
-        <a className="button release-download release-download--store" href={MICROSOFT_STORE_URL} target="_blank" rel="noreferrer">
-          <Download aria-hidden="true" />
-          <span>Download</span>
-        </a>
+        <div className={`release-download-menu${openDownloadMenu === release.version ? ' is-open' : ''}`} data-download-menu>
+          <button
+            className="button release-download release-download__trigger"
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={openDownloadMenu === release.version}
+            aria-controls={menuId}
+            onClick={() => setOpenDownloadMenu((current) => current === release.version ? null : release.version)}
+          >
+            <Download aria-hidden="true" />
+            <span>Download</span>
+            <ChevronDown className="button__arrow" aria-hidden="true" />
+          </button>
+
+          {openDownloadMenu === release.version && (
+            <div className="release-download-menu__panel" id={menuId} role="menu" aria-label={`Download Vast ${release.version}`}>
+              {installer && (
+                <button type="button" role="menuitem" onClick={() => startDownload(release, installer)}>
+                  <Download aria-hidden="true" />
+                  <span><strong>Download Installer</strong><small>{installer.size ?? 'Windows installer'}</small></span>
+                </button>
+              )}
+              {portable && (
+                <button type="button" role="menuitem" onClick={() => startDownload(release, portable)}>
+                  <Package aria-hidden="true" />
+                  <span><strong>Download Portable</strong><small>{portable.size ?? 'Portable Windows app'}</small></span>
+                </button>
+              )}
+              {isCurrentRelease && (
+                <a href={MICROSOFT_STORE_URL} role="menuitem" target="_blank" rel="noreferrer">
+                  <ShoppingBag aria-hidden="true" />
+                  <span><strong>Microsoft Store</strong><small>Install and update through Store</small></span>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
         <button className="release-info-trigger" type="button" aria-label={`Release information for Vast ${release.version}`} title="Release Information" onClick={() => {
+          setOpenDownloadMenu(null);
           setExpandedChangelog(false);
           setSelectedRelease(release);
         }}>
           <Info aria-hidden="true" />
         </button>
       </div>
-    </article>
-  );
+    </article>;
+  };
 
   return (
     <div className="subpage-shell">
@@ -194,21 +256,6 @@ export default function ReleasesPage() {
               <ul className="release-modal__notes">
                 {selectedRelease.notes.map((note) => <li key={note}>{note}</li>)}
               </ul>
-            )}
-
-            {selectedRelease.files.length > 0 && (
-              <div className="release-modal__downloads" aria-label="Direct downloads">
-                <span className="release-modal__downloads-label">Direct downloads</span>
-                <div>
-                  {selectedRelease.files.map((asset) => (
-                    <button className="button release-download release-download--file" type="button" onClick={() => startDownload(selectedRelease, asset)} key={asset.file}>
-                      <Download aria-hidden="true" />
-                      <span>{asset.label}</span>
-                      {asset.size && <small>{asset.size}</small>}
-                    </button>
-                  ))}
-                </div>
-              </div>
             )}
 
             {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
