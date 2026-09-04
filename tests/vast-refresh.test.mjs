@@ -154,6 +154,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /9MTWRJCKMDTX/);
   assert.match(releases, /release-download-menu__panel/);
   assert.match(releases, /Download Installer/);
+  assert.match(releases, /\(Recommended\)/);
   assert.match(releases, /Download Portable/);
   assert.match(releases, /Microsoft Store/);
   assert.match(releases, /aria-haspopup="menu"/);

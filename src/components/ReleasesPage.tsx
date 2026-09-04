@@ -155,7 +155,7 @@ export default function ReleasesPage() {
               {installer && (
                 <button type="button" role="menuitem" onClick={() => startDownload(release, installer)}>
                   <Download aria-hidden="true" />
-                  <span><strong>Download Installer</strong><small>{installer.size ?? 'Windows installer'}</small></span>
+                  <span><strong>Download Installer <em>(Recommended)</em></strong><small>{installer.size ?? 'Windows installer'}</small></span>
                 </button>
               )}
               {portable && (

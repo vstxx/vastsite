@@ -935,6 +935,14 @@ button {
   font-weight: 600;
 }
 
+.release-download-menu__panel strong em {
+  margin-left: 4px;
+  color: rgba(var(--accent-text-rgb), 0.76);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 500;
+}
+
 .release-download-menu__panel small {
   color: rgba(225, 221, 232, 0.38);
   font-size: 10px;
