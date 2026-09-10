@@ -38,6 +38,9 @@ test('restores the original Vast logo reveal without copy underneath', async () 
   assert.doesNotMatch(hero, /Vast, Infinite By Design/);
   assert.doesNotMatch(hero, /coming soon|setInterval|AnimatePresence/i);
   assert.match(css, /\.hero__logo img[\s\S]*top: -88\.889%/);
+  assert.match(css, /\.hero__logo[\s\S]*drop-shadow/);
+  assert.doesNotMatch(css, /\.hero__logo\s*\{[^}]*overflow: hidden/);
+  assert.match(css, /\.hero__logo-crop\s*\{[^}]*overflow: hidden/);
   assert.match(css, /\.hero__ambient[\s\S]*animation: ambient-drift 12s/);
 });
 
@@ -67,7 +70,7 @@ test('renders an accessible expandable Why Vast explanation', async () => {
     read('src/index.css'),
   ]);
 
-  assert.match(details, /Why should I actually use Vast\?/);
+  assert.match(details, /Why should I use Vast\?/);
   assert.match(details, /aria-expanded=\{open\}/);
   assert.match(details, /aria-controls="why-answer"/);
   assert.match(details, /why__continuation/);

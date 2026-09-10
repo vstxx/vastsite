@@ -20,7 +20,7 @@ export default function SceneDetails() {
           animate={inView ? titleVisible : {}}
           transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
         >
-          Why should I actually use Vast?
+          Why should I use Vast?
         </motion.h2>
         <p className="why__intro">
           Your browser should support the way you think without competing for your attention.

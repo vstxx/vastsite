@@ -18,7 +18,9 @@ export default function SceneLogo() {
         <h1 id="hero-title" className="hero__wordmark">
           <span className="sr-only">Vast</span>
           <span className="hero__logo" aria-hidden="true">
-            <img src="/logos/vast.png" alt="" />
+            <span className="hero__logo-crop">
+              <img src="/logos/vast.png" alt="" />
+            </span>
           </span>
         </h1>
       </motion.div>
