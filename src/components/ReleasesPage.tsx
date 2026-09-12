@@ -22,6 +22,8 @@ type Release = {
   description?: string;
   changelog?: ReleaseChangelogSection[];
   notes?: string[];
+  releaseUrl?: string;
+  documentationUrl?: string;
   files: ReleaseFile[];
 };
 
@@ -121,6 +123,7 @@ export default function ReleasesPage() {
 
   const renderRelease = (release: Release) => {
     const portable = release.files.find((asset) => /portable/i.test(`${asset.label} ${asset.file}`));
+    const updater = release.files.find((asset) => /updater/i.test(asset.file));
     const installer = release.files.find((asset) => /installer|setup/i.test(`${asset.label} ${asset.file}`))
       ?? release.files.find((asset) => !/portable|updater/i.test(`${asset.label} ${asset.file}`));
     const isCurrentRelease = release === officialReleases[0];
@@ -164,10 +167,16 @@ export default function ReleasesPage() {
                   <span><strong>Download Portable</strong><small>{portable.size ?? 'Portable Windows app'}</small></span>
                 </button>
               )}
+              {updater && (
+                <button type="button" role="menuitem" onClick={() => startDownload(release, updater)}>
+                  <Download aria-hidden="true" />
+                  <span><strong>Download Updater</strong><small>Existing direct installs only — not Store or Portable</small></span>
+                </button>
+              )}
               {isCurrentRelease && (
                 <a href={MICROSOFT_STORE_URL} role="menuitem" target="_blank" rel="noreferrer">
                   <ShoppingBag aria-hidden="true" />
-                  <span><strong>Microsoft Store</strong><small>Install and update through Store</small></span>
+                  <span><strong>Microsoft Store</strong><small>Store-managed updates; available version may differ</small></span>
                 </a>
               )}
             </div>
@@ -258,6 +267,13 @@ export default function ReleasesPage() {
               </ul>
             )}
 
+            {selectedRelease.releaseUrl && (
+              <p className="release-modal__description">
+                <a href={selectedRelease.releaseUrl} target="_blank" rel="noreferrer">All release files and checksums</a>
+                {selectedRelease.documentationUrl && <> · <a href={selectedRelease.documentationUrl} target="_blank" rel="noreferrer">0.3.0 documentation and update guide</a></>}
+              </p>
+            )}
+
             {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
               <section className={`release-modal__changelog${expandedChangelog ? ' is-expanded' : ''}`} aria-labelledby="release-changelog-title">
                 <h3 id="release-changelog-title">
@@ -302,6 +318,9 @@ export default function ReleasesPage() {
 
             <span className="release-modal__label">Vast {pendingDownload.release.version}</span>
             <h2 id="download-notice-title">Your download has started.</h2>
+            {/updater/i.test(pendingDownload.asset.file) && (
+              <p className="release-modal__description">Use this updater only for an existing direct installation. Microsoft Store/MSIX updates through Store; Portable uses the newer Portable executable.</p>
+            )}
             <p id="download-notice-description" className="release-modal__description">
               If you find a bug or something does not feel right, please tell us on Discord. Your reports help us make every release more stable.
             </p>

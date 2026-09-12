@@ -1,11 +1,123 @@
 {
   "releases": [
     {
+      "version": "0.3.0",
+      "previousVersion": "0.2.7",
+      "date": "2026-09-12",
+      "channel": "Official",
+      "description": "Vast 0.3.0 fixes workspace downloads and background updates, makes corner radius global, repairs Purist and browser menus, and cleans up Settings while preserving existing performance work.",
+      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.3.0",
+      "documentationUrl": "https://docs.vastbrowser.com/releases/0-3-0/",
+      "changelog": [
+        {
+          "title": "Downloads and workspace sessions",
+          "items": [
+            "Fixed downloads that saved correctly but never appeared in progress notifications or sidebar history, including sessions created by extensions during startup.",
+            "Connected download tracking to shared, isolated persistent, and temporary workspace sessions, with duplicate-safe setup when a webview attaches.",
+            "Restored active download progress after reloading the browser interface and kept simultaneous downloads independently visible.",
+            "Persisted download start and completion before subsequent security-scan results, so a slow scan no longer delays completed history.",
+            "Retry now uses the original workspace session, preserving its cookie and authentication context when that session is available.",
+            "Kept temporary-session download records out of durable history. Files explicitly saved to disk still remain on disk."
+          ]
+        },
+        {
+          "title": "Global corner radius and appearance",
+          "items": [
+            "Made Corner radius a continuous global control across the 6–36 px range, with proportional shapes for controls, cards, panels, menus, and dialogs.",
+            "Applied the same radius system to browser chrome, tabs, workspace controls, Settings, internal pages, notifications, PDF controls, and password autofill surfaces.",
+            "Applied the persisted radius during startup and window creation. True circles, decorative shapes, and intentional docked edges retain their geometry.",
+            "Reduced excessive glow and shadow treatment in Settings, particularly in Dim mode, and corrected inconsistent Dim backgrounds in Notes and adjacent panels."
+          ]
+        },
+        {
+          "title": "Navigation, Purist, and menus",
+          "items": [
+            "Fixed pointer handling in the experimental Purist omnibar so the address bar and its buttons respond to clicks.",
+            "Corrected More Tabs overflow placement so the searchable hidden-tab menu does not collide with the address bar and neighboring controls.",
+            "Repaired browser context-menu routing for navigation, selection copying, page actions, notes, Reading List, printing, muting, and inspection where supported.",
+            "Added packaged menu coverage for web pages, internal surfaces, and tab lifecycle transitions."
+          ]
+        },
+        {
+          "title": "Settings and privacy",
+          "items": [
+            "Reorganized Privacy settings into consistent half-width controls, with long exception inputs grouped in full-width rows below.",
+            "Changed Set browser as default to use the normal Settings button style while keeping Windows in control of default-app selection.",
+            "Removed the native ad-blocking engine, filter-list settings, and browser ad-blocker shortcut. Install the optional Adblocker for Vast extension for filter-list and cosmetic blocking.",
+            "Retained built-in common-tracker protection, link cleaning, cookie controls, fingerprinting protection, WebRTC policy, and workspace isolation."
+          ]
+        },
+        {
+          "title": "Background updates and recovery",
+          "items": [
+            "Completed background update downloading for eligible installed direct builds, with verified installer metadata and a durable next-launch handoff.",
+            "Bound prepared updates to the original installation and profile, preserving custom install paths and separating independent installations.",
+            "Kept the running browser available if the update helper cannot accept the handoff, and bounded failed installation retries instead of repeatedly trapping startup.",
+            "Protected active sessions by waiting for the old browser process before replacing application files.",
+            "Kept Microsoft Store updates managed by Microsoft Store. Portable and unpacked copies do not run the installed-browser automatic update path."
+          ]
+        },
+        {
+          "title": "Windows installation and Store packaging",
+          "items": [
+            "Unified the actual NSIS installer include so PDF registration and uninstall cleanup are included in the packaged installer.",
+            "Registered Vast as an available PDF Open with handler without taking over the current PDF default or changing Windows UserChoice.",
+            "Verified that uninstall removes Vast-owned registrations while preserving generic PDF, HTTP, HTTPS, and user-selected associations.",
+            "Added transparent, unplated Windows taskbar icons at standard target sizes without extra padding, plus package checks that require them.",
+            "Separated browser version 0.3.0 from the configurable Store package version. Store availability follows its separate certification and rollout."
+          ]
+        },
+        {
+          "title": "Performance and persistence",
+          "items": [
+            "Preserved lazy loading of the browser stage, Settings, Command Palette, Side Panel, and Smart Unload.",
+            "Kept inactive restored tabs discarded until needed, together with tab/sidebar memoization, content visibility, and stable webview event bindings.",
+            "Kept high-frequency download progress out of general renderer autosave; download persistence remains owned by the main process.",
+            "Retained queued and deduplicated writes, consolidated persistence, bounded rolling backups, cached request-policy derivation, and asynchronous diagnostics writes.",
+            "Rechecked the obfuscated production build and existing JavaScript budgets without changing the Electron 44.1.0 runtime or browser-view architecture."
+          ]
+        },
+        {
+          "title": "Release verification",
+          "items": [
+            "Updated compatible dependencies and overrides so the root and Relay dependency audits pass without high or critical findings.",
+            "Expanded download lifecycle, radius, updater, installer, menu, extension, and release-integrity regression coverage.",
+            "Verified the real 0.2.7-to-0.3.0 upgrade and Windows installation lifecycle, along with public source and secret-scanning checks.",
+            "Published the same verified candidate bytes with SHA-256/SHA-512 lists, source provenance, update metadata, and FFmpeg corresponding source."
+          ]
+        }
+      ],
+      "notes": [
+        "The Windows x64 direct release is intentionally unsigned. Windows will show Unknown publisher and SmartScreen may warn. Verify the published checksums before running it.",
+        "The standalone updater is for existing direct installations, not Microsoft Store/MSIX or Portable. Store installations update through Microsoft Store; Store availability may lag this direct release."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.3.0.exe",
+          "size": "309.44 MiB",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.3.0/Vast-Setup-0.3.0.exe"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.3.0-Portable.exe",
+          "size": "260.49 MiB",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.3.0/Vast-0.3.0-Portable.exe"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.3.0.exe",
+          "size": "33.47 MiB",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.3.0/VastUpdater-0.3.0.exe"
+        }
+      ]
+    },
+    {
       "version": "0.2.7",
       "previousVersion": "0.2.5",
       "date": "2026-09-04",
-      "channel": "Official",
-      "description": "Vast 0.2.7 is the current official Windows release, with a rebuilt credential system, session-aware PDF handling, Electron 44.1.0, and production-grade direct and Microsoft Store release gates.",
+      "channel": "Legacy",
+      "description": "Vast 0.2.7 is the previous official Windows release, with a rebuilt credential system, session-aware PDF handling, Electron 44.1.0, and production-grade direct and Microsoft Store release gates.",
       "changelog": [
         {
           "title": "Everyday browsing and interface",
