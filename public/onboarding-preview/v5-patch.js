@@ -6,7 +6,7 @@
     .intro-flow{display:block;width:100%;height:auto;mix-blend-mode:screen;pointer-events:none;user-select:none}
     .intro-copy{position:absolute;left:50%;top:50%;width:min(980px,96vw);transform:translate(-50%,-8%);display:flex;flex-direction:column;align-items:center;gap:30px;opacity:0;pointer-events:none;transition:opacity .5s ease,transform .7s cubic-bezier(.16,1,.3,1)}
     .intro-copy .welcome-title{margin:0;white-space:nowrap}
-    .intro-content.intro-settled .intro-flow-wrap{width:min(250px,50vw);transform:translate(-50%,calc(-50% - 150px))}
+    .intro-content.intro-settled .intro-flow-wrap{width:min(360px,58vw);transform:translate(-50%,calc(-50% - 150px))}
     .intro-content.intro-ready .intro-copy{opacity:1;pointer-events:auto;transform:translate(-50%,3%)}
     .intro-content:not(.intro-ready) .welcome-actions{pointer-events:none}
     body.intro-running .ambient,body.intro-running .grain{opacity:0!important}
@@ -18,8 +18,8 @@
     .extension-slot-head{display:flex;align-items:center;gap:11px;min-width:0}.extension-slot-icon{width:36px;height:36px;border:1px solid var(--border);border-radius:calc(var(--radius)*.34);background:var(--surface);display:grid;place-items:center;color:var(--muted);font-size:14px;flex:none}.extension-slot-meta{min-width:0}.extension-slot-title{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.extension-slot-sub{margin-top:4px;font-size:10px;color:var(--faint)}
     .extension-slot-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}.hub-label{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.07em}.extension-slot .vast-button{height:2rem;min-width:5.2rem;padding:0 .72rem;font-size:.72rem}
     .hub-note{font-size:10px;color:var(--faint);margin-top:2px}
-    @media(max-width:760px){.intro-content{min-height:68vh}.intro-content.intro-settled .intro-flow-wrap{width:min(205px,56vw);transform:translate(-50%,calc(-50% - 112px))}.intro-copy{gap:24px;transform:translate(-50%,6%)}.intro-content.intro-ready .intro-copy{transform:translate(-50%,12%)}.extension-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:480px){.extension-hub-grid{grid-template-columns:1fr}.intro-flow-wrap{width:98vw}.intro-content.intro-settled .intro-flow-wrap{width:min(180px,58vw)}}
+    @media(max-width:760px){.intro-content{min-height:68vh}.intro-content.intro-settled .intro-flow-wrap{width:min(280px,68vw);transform:translate(-50%,calc(-50% - 112px))}.intro-copy{gap:24px;transform:translate(-50%,6%)}.intro-content.intro-ready .intro-copy{transform:translate(-50%,12%)}.extension-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:480px){.extension-hub-grid{grid-template-columns:1fr}.intro-flow-wrap{width:98vw}.intro-content.intro-settled .intro-flow-wrap{width:min(240px,72vw)}}
     @media(prefers-reduced-motion:reduce){.intro-flow-wrap,.intro-copy{transition:none!important}.extension-slot{transition:none!important}}
   `;
   const style = document.createElement('style'); style.id='vast-onboarding-v5'; style.textContent=css; document.head.appendChild(style);
@@ -83,7 +83,7 @@
   // Original renderer still paints its provider into the finish summary. Replace only that chip.
   const summary=document.getElementById('summaryChips');
   if(summary){
-    const cleanSummary=()=>{const chips=[...summary.children];if(chips.length>=5){chips[3].textContent=installed.size?`${installed.size} extension${installed.size===1?'':'s'} added`:'Extensions later'}};
+    const cleanSummary=()=>{const chips=[...summary.children];if(chips.length>=5){const value=installed.size?`${installed.size} extension${installed.size===1?'':'s'} added`:'Extensions later';if(chips[3].textContent!==value)chips[3].textContent=value}};
     new MutationObserver(cleanSummary).observe(summary,{childList:true,subtree:true});
     cleanSummary();
   }
