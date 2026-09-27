@@ -1,70 +1,10 @@
 {
   "releases": [
     {
-      "version": "0.4.0",
-      "previousVersion": "0.3.0",
-      "date": "2026-09-27",
-      "channel": "Official",
-      "description": "Vast 0.4.0 adds the Chrome-extension compatibility runtime and Extension Hub installation for Bitwarden, Proton Pass, and upstream iCloud Passwords, alongside a new Adblocker for Vast, resizable extension menus, and interface polish.",
-      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.0",
-      "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-0/",
-      "changelog": [
-        {
-          "title": "Extensions and password managers",
-          "items": [
-            "Added the audited Electron 44.3.0 and ECE 4.9.0 compatibility runtime, retaining upstream extension IDs and a fail-closed rollback path.",
-            "Added Extension Hub installation for unmodified Bitwarden and Proton Pass packages. iCloud Passwords is fetched from Apple's upstream Chrome Web Store listing rather than repackaged by Vast.",
-            "Kept password-manager vault data in extension-owned storage and preserved existing Vast profiles during normal upgrades.",
-            "Made extension popup menus resizable in both width and height."
-          ]
-        },
-        {
-          "title": "Adblocker and appearance",
-          "items": [
-            "Released the updated standalone Adblocker for Vast extension with filter-list, cosmetic, and video-site blocking improvements.",
-            "Added Clean toolbar icons to remove outlined button backgrounds and enlarge the toolbar glyphs when enabled.",
-            "Aligned inconsistent Settings text sizes and corrected extension compatibility status shown in the Hub."
-          ]
-        },
-        {
-          "title": "Release integrity",
-          "items": [
-            "Pinned the modified Electron and ECE runtime to reviewed source patches and binary fingerprints.",
-            "Rechecked the Windows installer, Portable build, updater, profile-preserving upgrade, GPL source provenance, and release checks for the 0.4.0 candidate."
-          ]
-        }
-      ],
-      "notes": [
-        "The Windows x64 direct binaries are intentionally unsigned. Windows may show Unknown publisher or a SmartScreen warning. Verify the published checksums before running them.",
-        "The standalone updater is only for installed direct builds. Microsoft Store/MSIX and Portable use separate update paths; Store availability may lag this GitHub release.",
-        "Password-manager compatibility was exercised on controlled accounts, but the formal exhaustive password-manager gate remains open. Report reproducible extension defects without sharing vault contents."
-      ],
-      "files": [
-        {
-          "label": "Download installer",
-          "file": "Vast-Setup-0.4.0.exe",
-          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.0/Vast-Setup-0.4.0.exe",
-          "size": "332.68 MiB"
-        },
-        {
-          "label": "Download portable",
-          "file": "Vast-0.4.0-Portable.exe",
-          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.0/Vast-0.4.0-Portable.exe",
-          "size": "281.87 MiB"
-        },
-        {
-          "label": "Download updater",
-          "file": "VastUpdater-0.4.0.exe",
-          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.0/VastUpdater-0.4.0.exe",
-          "size": "33.48 MiB"
-        }
-      ]
-    },
-    {
       "version": "0.3.0",
       "previousVersion": "0.2.7",
       "date": "2026-09-12",
-      "channel": "Legacy",
+      "channel": "Official",
       "description": "Vast 0.3.0 fixes workspace downloads and background updates, makes corner radius global, repairs Purist and browser menus, and cleans up Settings while preserving existing performance work.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.3.0",
       "documentationUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.3.0",
