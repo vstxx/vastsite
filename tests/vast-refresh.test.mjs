@@ -203,7 +203,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.equal(releaseManifest.releases[0].files[2].file, 'VastUpdater-0.3.0.exe');
   assert.equal(releaseManifest.releases[0].releaseUrl, 'https://github.com/vstxx/vast-public/releases/tag/v0.3.0');
   assert.match(releaseManifest.releases[0].notes.join(' '), /unsigned/i);
-  assert.equal(releaseManifest.releases[0].documentationUrl, releaseManifest.releases[0].releaseUrl);
+  assert.equal(releaseManifest.releases[0].documentationUrl, 'https://docs.vastbrowser.com/releases/0-3-0/');
   assert.ok(releaseManifest.releases[0].changelog.length >= 7);
   assert.ok(releaseManifest.releases.every((release) => release.version !== '0.4.0'));
   const changelog = releaseManifest.releases[0].changelog.flatMap((section) => section.items).join(' ');
