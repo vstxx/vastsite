@@ -64,10 +64,10 @@
       "version": "0.3.0",
       "previousVersion": "0.2.7",
       "date": "2026-09-12",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast 0.3.0 fixes workspace downloads and background updates, makes corner radius global, repairs Purist and browser menus, and cleans up Settings while preserving existing performance work.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.3.0",
-      "documentationUrl": "https://docs.vastbrowser.com/releases/0-3-0/",
+      "documentationUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.3.0",
       "changelog": [
         {
           "title": "Downloads and workspace sessions",

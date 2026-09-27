@@ -205,6 +205,8 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.equal(releaseManifest.releases[0].documentationUrl, 'https://docs.vastbrowser.com/releases/0-4-0/');
   assert.match(releaseManifest.releases[0].notes.join(' '), /unsigned/i);
   assert.equal(releaseManifest.releases[1].version, '0.3.0');
+  assert.equal(releaseManifest.releases[1].channel, 'Legacy');
+  assert.equal(releaseManifest.releases[1].documentationUrl, releaseManifest.releases[1].releaseUrl);
   assert.ok(releaseManifest.releases[1].changelog.length >= 7);
   const changelog = releaseManifest.releases[1].changelog.flatMap((section) => section.items).join(' ');
   assert.match(changelog, /workspace session/);
