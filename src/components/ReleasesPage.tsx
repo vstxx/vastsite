@@ -270,7 +270,7 @@ export default function ReleasesPage() {
             {selectedRelease.releaseUrl && (
               <p className="release-modal__description">
                 <a href={selectedRelease.releaseUrl} target="_blank" rel="noreferrer">All release files and checksums</a>
-                {selectedRelease.documentationUrl && <> · <a href={selectedRelease.documentationUrl} target="_blank" rel="noreferrer">0.3.0 documentation and update guide</a></>}
+                {selectedRelease.documentationUrl && <> · <a href={selectedRelease.documentationUrl} target="_blank" rel="noreferrer">{selectedRelease.version} documentation and update guide</a></>}
               </p>
             )}
 
