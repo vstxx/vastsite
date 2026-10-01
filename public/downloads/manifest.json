@@ -1,10 +1,59 @@
 {
   "releases": [
     {
+      "version": "0.4.2",
+      "previousVersion": "0.4.1",
+      "date": "2026-10-01",
+      "channel": "Official",
+      "description": "Vast 0.4.2 fixes delayed scrolling on heavy websites such as Gmail and ChatGPT.",
+      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.2",
+      "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-2/",
+      "changelog": [
+        {
+          "title": "Scroll performance hotfix",
+          "items": [
+            "Removed a non-passive wheel listener from the guest-page preload that could delay scrolling on heavy websites.",
+            "Kept normal wheel tracking passive. Vast's custom Ctrl/Meta+wheel zoom forwarding in website webviews is removed; keyboard and browser UI zoom controls remain."
+          ]
+        }
+      ],
+      "notes": [
+        "The Windows x64 direct installer, Portable executable and standalone updater are intentionally unsigned. Windows may show Unknown publisher or SmartScreen warnings. Verify the published checksums before running them.",
+        "The Electron/ECE compatibility runtime and password-manager extensions are unchanged. The exhaustive formal password-manager gate was not rerun for this hotfix.",
+        "The standalone updater is only for existing direct installations. Portable requires the newer Portable executable; Microsoft Store updates are managed separately by Microsoft Store."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.4.2.exe",
+          "size": "338.84 MiB",
+          "bytes": 355303168,
+          "sha256": "71a523dec19d85f8e76fb105606702176627448837c930cf673db3943d5b27c6",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.2/Vast-Setup-0.4.2.exe"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.4.2-Portable.exe",
+          "size": "285.17 MiB",
+          "bytes": 299025471,
+          "sha256": "f1463358114c88e4fbcbcb2d8067320887352c3d9866cbd4ecd801c8e65fbf83",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.2/Vast-0.4.2-Portable.exe"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.4.2.exe",
+          "size": "33.48 MiB",
+          "bytes": 35101473,
+          "sha256": "ab7054d4dfe55b7c6ba7edf4701b8cc1fa1349a9d820a6a940d7ddfcea713cbe",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.2/VastUpdater-0.4.2.exe"
+        }
+      ]
+    },
+    {
       "version": "0.4.1",
       "previousVersion": "0.3.0",
       "date": "2026-09-30",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast 0.4.1 adds a source-controlled extension compatibility runtime, improves onboarding and import, and hardens updates and browser security.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.1",
       "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-1/",
