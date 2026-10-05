@@ -1,10 +1,68 @@
 {
   "releases": [
     {
+      "version": "0.4.3",
+      "previousVersion": "0.4.2",
+      "date": "2026-10-05",
+      "channel": "Official",
+      "description": "Vast 0.4.3 improves startup, browsing responsiveness, tab retention, Settings, and sidebar performance.",
+      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.3",
+      "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-3/",
+      "changelog": [
+        {
+          "title": "Browser performance and interface",
+          "items": [
+            "Reduced work during startup, first page load, Settings, and sidebar updates; improved background tab retention.",
+            "Improved scrolling on website pages, including nested Purist scrolling, and fixed the clipped opening logo.",
+            "Updated renderer styling to Tailwind CSS 4 while preserving the existing interface."
+          ]
+        },
+        {
+          "title": "Runtime and updates",
+          "items": [
+            "Updated the pinned Electron 44.3.0 compatibility runtime and retained ECE 4.9.0 extension support.",
+            "Fixed the installed-browser updater handoff for 0.4.3 and later; isolated Store profile data from direct installs."
+          ]
+        }
+      ],
+      "notes": [
+        "Important for existing 0.4.2 direct installs: automatic migration to 0.4.3 is intentionally held because the 0.4.2 updater can fail during installation. Close Vast and run the 0.4.3 installer or standalone updater once; the direct-install profile is preserved. Automatic updates resume from 0.4.3 onward.",
+        "The Windows x64 direct installer, Portable executable, and standalone updater are intentionally unsigned. Windows may show Unknown publisher or SmartScreen warnings. Check the published SHA-256/SHA-512 values before running them.",
+        "The standalone updater is only for existing direct installations. Portable requires the new Portable executable. Microsoft Store uses its own package, profile, certification, and update channel; its available version may differ.",
+        "Basic Bitwarden, Proton Pass, iCloud, and browser canaries passed; the exhaustive formal password-manager acceptance matrix is still open."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.4.3.exe",
+          "size": "315.62 MiB",
+          "bytes": 330955636,
+          "sha256": "9d5bfae4586f8043b13990968ed345090e4c9aba6259bfdf1a1d190a10bb9009",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.3/Vast-Setup-0.4.3.exe"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.4.3-Portable.exe",
+          "size": "264.01 MiB",
+          "bytes": 276835601,
+          "sha256": "8d1a3dd0c99811ffdfd84bd982b2ba2fb9f0d1850916549bd120ced4cdb1ea84",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.3/Vast-0.4.3-Portable.exe"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.4.3.exe",
+          "size": "33.48 MiB",
+          "bytes": 35101423,
+          "sha256": "cd507198a82bd954c5f8a86b4d36b2ec7c7e5b01cc0e4324f0143c18860fc0c8",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.4.3/VastUpdater-0.4.3.exe"
+        }
+      ]
+    },
+    {
       "version": "0.4.2",
       "previousVersion": "0.4.1",
       "date": "2026-10-01",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast 0.4.2 fixes delayed scrolling on heavy websites such as Gmail and ChatGPT.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.2",
       "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-2/",
