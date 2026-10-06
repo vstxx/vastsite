@@ -22,36 +22,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      if (new URLSearchParams(location.search).has('__brand_debug')) {
-        const log = document.createElement('pre');
-        const report = (message) => {
-          log.textContent += `${message}\n`;
-          if (!log.isConnected) document.body.appendChild(log);
-        };
-        window.addEventListener('error', (event) => {
-          report(`error: ${event.message || 'resource failed'} ${event.filename || event.target?.src || ''}`);
-        }, true);
-        window.addEventListener('unhandledrejection', (event) => report(`rejection: ${event.reason}`));
-        document.addEventListener('DOMContentLoaded', async () => {
-          try {
-            const asset = document.querySelector('script[type="module"]').src;
-            const response = await fetch(asset, { cache: 'reload' });
-            const body = await response.text();
-            report(`script fetch: ${response.status} ${response.headers.get('content-type')} ${body.length} ${body.slice(0, 40)}`);
-            const retry = document.createElement('script');
-            retry.type = 'module';
-            retry.src = `${asset}?brand-debug=${Date.now()}`;
-            retry.onload = () => report('query module loaded');
-            retry.onerror = () => report('query module failed');
-            document.body.appendChild(retry);
-          } catch (error) {
-            report(`script fetch failed: ${error}`);
-          }
-        });
-        report('diagnostics ready');
-      }
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
