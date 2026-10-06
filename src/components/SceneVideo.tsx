@@ -16,7 +16,7 @@ export default function SceneVideo() {
     <section ref={sectionRef} id="film" className="film-section" aria-label="Vast animation">
       <motion.div className="film" style={{ scale, opacity }}>
         <div className="film__fallback" aria-hidden="true">
-          <span>coming soon</span>
+          <span>promotional video coming soon™</span>
         </div>
         <video
           className={`film__video${videoReady ? ' is-ready' : ''}`}

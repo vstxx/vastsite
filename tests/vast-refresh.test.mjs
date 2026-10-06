@@ -59,7 +59,7 @@ test('provides a rounded scroll-revealed autoplay video with a fallback', async 
   assert.match(video, /vast-animation\.mp4/);
   assert.match(video, /useScroll/);
   assert.match(video, /film__fallback/);
-  assert.match(video, /coming soon/);
+  assert.match(video, /promotional video coming soon™/);
   assert.match(css, /\.film\s*\{[\s\S]*border-radius:/);
   assert.match(css, /\.film\s*\{[\s\S]*height: min\(82svh, 940px\)/);
 });
