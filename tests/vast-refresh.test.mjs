@@ -267,3 +267,21 @@ test('includes responsive and reduced-motion safeguards', async () => {
   assert.match(css, /\.why__inner h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.why__inner[\s\S]*text-align: center/);
 });
+
+
+test('keeps the Vast Helium demo restrained and free of synthetic marketing UI', async () => {
+  const [page, css] = await Promise.all([
+    read('src/components/VastHeliumTest.tsx'),
+    read('src/components/vast-helium-test.css'),
+  ]);
+
+  assert.match(page, /Built to look and work your way\./);
+  assert.doesNotMatch(page, /Meet Vast|BrowserMockup|ComparisonVisual|Sponsored|Cookie notice|externalComparisonSetter/);
+  assert.doesNotMatch(page, /Optimize startup and scroll paths|Pin compatibility runtime revision|Publish source provenance/);
+  assert.match(page, /src="\/settings-preview\//);
+  assert.match(page, /src="\/onboarding-preview\//);
+  assert.doesNotMatch(css, /backdrop-filter|radial-gradient|repeating-linear-gradient|box-shadow/);
+  assert.match(css, /border-radius: 27px/);
+  assert.match(css, /width: min\(1140px, calc\(100% - 56px\)\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
