@@ -22,6 +22,20 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if (new URLSearchParams(location.search).has('__brand_debug')) {
+        const log = document.createElement('pre');
+        const report = (message) => {
+          log.textContent += `${message}\n`;
+          if (!log.isConnected) document.body.appendChild(log);
+        };
+        window.addEventListener('error', (event) => {
+          report(`error: ${event.message || 'resource failed'} ${event.filename || event.target?.src || ''}`);
+        }, true);
+        window.addEventListener('unhandledrejection', (event) => report(`rejection: ${event.reason}`));
+        report('diagnostics ready');
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
