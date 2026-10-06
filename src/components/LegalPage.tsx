@@ -2,7 +2,8 @@ import { ArrowLeft } from 'lucide-react';
 import { useEffect } from 'react';
 import SiteFooter from './SiteFooter';
 
-type LegalKind = 'legal' | 'privacy' | 'copyright' | 'platform-terms' | 'publisher-terms' | 'publishing-policy';
+type NoticeKind = 'legal' | 'privacy' | 'copyright' | 'platform-terms' | 'publisher-terms' | 'publishing-policy';
+type LegalKind = NoticeKind | 'terms';
 
 const notices = {
   legal: {
@@ -73,18 +74,44 @@ const notices = {
       ['Reports', 'Public reports cover copyright, malware, illegal functionality, privacy abuse, impersonation and other violations. Reports are rate-limited and human-reviewed without automatic delisting.'],
     ],
   },
-} satisfies Record<LegalKind, { eyebrow: string; title: string; intro: string; sections: string[][] }>;
+} satisfies Record<NoticeKind, { eyebrow: string; title: string; intro: string; sections: string[][] }>;
+
+const pages: Record<LegalKind, { title: string; intro: string; groups: NoticeKind[] }> = {
+  legal: { title: notices.legal.title, intro: notices.legal.intro, groups: ['legal', 'copyright'] },
+  privacy: { title: notices.privacy.title, intro: notices.privacy.intro, groups: ['privacy'] },
+  terms: {
+    title: 'Terms of Use',
+    intro: 'Terms and policies for the Vast website, Extensions Hub, and extension publishing.',
+    groups: ['platform-terms', 'publisher-terms', 'publishing-policy'],
+  },
+  copyright: { title: notices.copyright.title, intro: notices.copyright.intro, groups: ['copyright'] },
+  'platform-terms': { title: notices['platform-terms'].title, intro: notices['platform-terms'].intro, groups: ['platform-terms'] },
+  'publisher-terms': { title: notices['publisher-terms'].title, intro: notices['publisher-terms'].intro, groups: ['publisher-terms'] },
+  'publishing-policy': { title: notices['publishing-policy'].title, intro: notices['publishing-policy'].intro, groups: ['publishing-policy'] },
+};
 
 export default function LegalPage({ kind }: { kind: LegalKind }) {
-  const notice = notices[kind];
-  useEffect(() => { document.title = `${notice.title} · Vast Browser`; }, [notice.title]);
+  const page = pages[kind];
+  useEffect(() => { document.title = `${page.title} · Vast Browser`; }, [page.title]);
   return (
     <div className="subpage-shell">
       <header className="subpage-header"><a className="vast-control" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a></header>
       <main className="legal-page">
-        <div className="legal-heading"><p>{notice.eyebrow}</p><h1>{notice.title}</h1><span>{notice.intro}</span></div>
-        <div className="legal-sections">{notice.sections.map(([title, body]) => <section key={title}><h2>{title}</h2><p>{body}</p></section>)}</div>
-        {kind === 'legal' && <nav className="legal-links" aria-label="Legal resources"><a href="/privacy">Privacy Notice</a><a href="/support">Support</a><a href="https://docs.vastbrowser.com/security/" rel="noreferrer">Security documentation</a><a href="https://extensions.vastbrowser.com/legal/publisher-terms" rel="noreferrer">Publisher Terms</a></nav>}
+        <div className="legal-heading"><p>{notices[page.groups[0]].eyebrow}</p><h1>{page.title}</h1><span>{page.intro}</span></div>
+        <div className="legal-sections">
+          {page.groups.map((group, index) => {
+            const notice = notices[group];
+            const grouped = page.groups.length > 1 && (kind === 'terms' || index > 0);
+            return (
+              <div className="legal-group" key={group} id={group}>
+                {grouped && <div className="legal-group__heading"><h2>{notice.title}</h2><p>{notice.intro}</p></div>}
+                {notice.sections.map(([title, body]) => <section key={title}>{grouped ? <h3>{title}</h3> : <h2>{title}</h2>}<p>{body}</p></section>)}
+                {group === 'publisher-terms' && <a className="legal-group__source" href="https://extensions.vastbrowser.com/legal/publisher-terms">Read the current Publisher Terms</a>}
+              </div>
+            );
+          })}
+        </div>
+        {kind === 'legal' && <nav className="legal-links" aria-label="Legal resources"><a href="/privacy">Privacy Notice</a><a href="/terms">Terms of Use</a><a href="/support">Support</a><a href="https://docs.vastbrowser.com/security/" rel="noreferrer">Security documentation</a></nav>}
       </main>
       <SiteFooter />
     </div>

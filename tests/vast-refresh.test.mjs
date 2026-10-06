@@ -105,11 +105,10 @@ test('renders an open download section and minimal footer', async () => {
   assert.match(cta, /href="\/releases"/);
   assert.match(cta, /target="_blank"/);
   assert.match(footer, /Vast, Infinite By Design/);
-  assert.match(footer, /Privacy Notice/);
-  assert.match(footer, /Copyright\/IP Notice/);
-  assert.match(footer, /Publisher Terms/);
-  assert.match(footer, /Publishing Policy/);
-  assert.match(footer, /docs\.vastbrowser\.com/);
+  assert.deepEqual([...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]), [
+    'https://discord.gg/f7bnZ3cmq', '/legal', '/privacy', '/terms',
+  ]);
+  assert.match(footer, /Terms of Use/);
   assert.match(footer, /discord\.gg\/f7bnZ3cmq/);
   assert.match(footer, /Join our Discord and give feedback/);
   assert.match(footer, /icons\.svg#discord-icon/);
@@ -146,6 +145,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(app, /path === '\/releases'/);
   assert.match(app, /path === '\/legal'/);
   assert.match(app, /path === '\/privacy'/);
+  assert.match(app, /path === '\/terms'/);
   assert.match(app, /path === '\/support'/);
   assert.match(app, /path === '\/copyright'/);
   assert.match(app, /path === '\/platform-terms'/);
@@ -193,6 +193,8 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /Copyright\/IP Notice/);
   assert.match(legal, /Publisher Terms/);
   assert.match(legal, /Publishing Policy/);
+  assert.match(legal, /groups: \['platform-terms', 'publisher-terms', 'publishing-policy'\]/);
+  assert.match(legal, /groups: \['legal', 'copyright'\]/);
   assert.match(legal, /\['Operator', 'Jan Nowacki'\]/);
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
@@ -269,39 +271,11 @@ test('includes responsive and reduced-motion safeguards', async () => {
 });
 
 
-test('provides the isolated clean site demo route', async () => {
-  const [app, page, css] = await Promise.all([
-    read('src/App.tsx'),
-    read('src/components/SiteDemo.tsx'),
-    read('src/components/site-demo.css'),
-  ]);
-
-  assert.match(app, /path === '\/sitedemo'/);
-  assert.match(app, /SiteDemo/);
-  assert.match(page, /Built to look and/);
-  assert.match(page, /work your way\./);
-  assert.match(page, /BrowserMockup/);
-  assert.match(page, />Donate</);
-  assert.match(page, />GitHub</);
-  assert.match(page, />Documentation</);
-  assert.doesNotMatch(page, /benchmark|metric|AI|bento|card grid/i);
-  assert.doesNotMatch(css, /repeating-linear-gradient|scroll-snap-type/);
-  assert.match(css, /backdrop-filter: blur\(22px\)/);
-  assert.match(css, /border-radius: 30px/);
-});
-
-
-test('site demo uses the real Vast UI screenshot and factual product stats', async () => {
-  const [page, lower] = await Promise.all([
-    read('src/components/SiteDemo.tsx'),
-    read('src/components/SiteDemoLower.tsx'),
-  ]);
-
-  assert.doesNotMatch(page, /BrowserMockup/);
-  assert.match(page, /site-demo\/vast-main-ui\.webp/);
-  assert.match(lower, /\['0', 'browsing telemetry'\]/);
-  assert.match(lower, /\['3', 'interface layouts'\]/);
-  assert.match(lower, /\['0\.4\.3', 'current public release'\]/);
-  assert.match(lower, /GPL-3\.0/);
-  assert.match(lower, /Windows x64 is the current release-supported target/);
+test('does not include the site demo locally', async () => {
+  const app = await read('src/App.tsx');
+  assert.doesNotMatch(app, /SiteDemo|sitedemo/);
+  await assert.rejects(read('src/components/SiteDemo.tsx'), { code: 'ENOENT' });
+  await assert.rejects(read('src/components/SiteDemoLower.tsx'), { code: 'ENOENT' });
+  await assert.rejects(read('src/components/site-demo.css'), { code: 'ENOENT' });
+  await assert.rejects(read('public/site-demo/vast-main-ui.webp'), { code: 'ENOENT' });
 });

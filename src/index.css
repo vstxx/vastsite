@@ -1286,6 +1286,37 @@ button {
   margin-top: clamp(80px, 10vw, 120px);
 }
 
+.legal-group {
+  display: grid;
+  gap: 14px;
+}
+
+.legal-group + .legal-group {
+  margin-top: 42px;
+}
+
+.legal-group__heading {
+  padding: 0 4px;
+}
+
+.legal-group__heading h2 {
+  margin: 0 0 10px;
+  color: rgba(243, 240, 247, 0.9);
+  font-size: 24px;
+}
+
+.legal-group__heading p,
+.legal-group__source {
+  color: rgba(225, 221, 232, 0.6);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.legal-group__source {
+  justify-self: start;
+  margin: 4px;
+}
+
 .legal-sections section {
   display: grid;
   grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
@@ -1303,7 +1334,8 @@ button {
   border-bottom: 1px solid rgba(255, 255, 255, 0.075);
 }
 
-.legal-sections h2 {
+.legal-sections section h2,
+.legal-sections section h3 {
   margin: 0;
   color: rgba(243, 240, 247, 0.78);
   font-size: 15px;

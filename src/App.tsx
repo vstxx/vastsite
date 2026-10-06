@@ -7,7 +7,6 @@ import SceneVideo from './components/SceneVideo';
 import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
 import SupportPage from './components/SupportPage';
-import SiteDemo from './components/SiteDemo';
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -16,11 +15,11 @@ export default function App() {
   if (path === '/support') return <SupportPage />;
   if (path === '/legal') return <LegalPage kind="legal" />;
   if (path === '/privacy') return <LegalPage kind="privacy" />;
+  if (path === '/terms') return <LegalPage kind="terms" />;
   if (path === '/copyright') return <LegalPage kind="copyright" />;
   if (path === '/platform-terms') return <LegalPage kind="platform-terms" />;
   if (path === '/publisher-terms') return <LegalPage kind="publisher-terms" />;
   if (path === '/publishing-policy') return <LegalPage kind="publishing-policy" />;
-  if (path === '/sitedemo') return <SiteDemo />;
 
   return (
     <>
