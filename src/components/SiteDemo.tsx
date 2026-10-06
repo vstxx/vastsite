@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import BrowserMockup from './BrowserMockup';
+import SiteDemoLower from './SiteDemoLower';
 import './site-demo.css';
 
 const GITHUB_URL = 'https://github.com/vstxx/vast-public';
@@ -71,12 +71,16 @@ export default function SiteDemo() {
             </div>
 
             <div className="site-demo-preview-wrap">
-              <div className="site-demo-preview">
-                <BrowserMockup />
-              </div>
+              <img
+                className="site-demo-preview-image"
+                src="/site-demo/vast-main-ui.webp"
+                alt="Vast Browser showing the Research workspace and new tab page"
+              />
             </div>
           </div>
         </section>
+
+        <SiteDemoLower />
       </main>
     </div>
   );

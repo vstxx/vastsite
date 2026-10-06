@@ -289,3 +289,19 @@ test('provides the isolated clean site demo route', async () => {
   assert.match(css, /backdrop-filter: blur\(22px\)/);
   assert.match(css, /border-radius: 30px/);
 });
+
+
+test('site demo uses the real Vast UI screenshot and factual product stats', async () => {
+  const [page, lower] = await Promise.all([
+    read('src/components/SiteDemo.tsx'),
+    read('src/components/SiteDemoLower.tsx'),
+  ]);
+
+  assert.doesNotMatch(page, /BrowserMockup/);
+  assert.match(page, /site-demo\/vast-main-ui\.webp/);
+  assert.match(lower, /\['0', 'browsing telemetry'\]/);
+  assert.match(lower, /\['3', 'interface layouts'\]/);
+  assert.match(lower, /\['0\.4\.3', 'current public release'\]/);
+  assert.match(lower, /GPL-3\.0/);
+  assert.match(lower, /Windows x64 is the current release-supported target/);
+});
