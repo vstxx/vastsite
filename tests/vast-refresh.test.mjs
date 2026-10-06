@@ -267,3 +267,25 @@ test('includes responsive and reduced-motion safeguards', async () => {
   assert.match(css, /\.why__inner h2[\s\S]*font-weight: 600/);
   assert.match(css, /\.why__inner[\s\S]*text-align: center/);
 });
+
+
+test('provides the isolated clean site demo route', async () => {
+  const [app, page, css] = await Promise.all([
+    read('src/App.tsx'),
+    read('src/components/SiteDemo.tsx'),
+    read('src/components/site-demo.css'),
+  ]);
+
+  assert.match(app, /path === '\/sitedemo'/);
+  assert.match(app, /SiteDemo/);
+  assert.match(page, /Built to look and/);
+  assert.match(page, /work your way\./);
+  assert.match(page, /BrowserMockup/);
+  assert.match(page, />Donate</);
+  assert.match(page, />GitHub</);
+  assert.match(page, />Documentation</);
+  assert.doesNotMatch(page, /benchmark|metric|AI|bento|card grid/i);
+  assert.doesNotMatch(css, /repeating-linear-gradient|scroll-snap-type/);
+  assert.match(css, /backdrop-filter: blur\(22px\)/);
+  assert.match(css, /border-radius: 30px/);
+});
