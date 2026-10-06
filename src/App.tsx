@@ -6,7 +6,7 @@ import SceneStatement from './components/SceneStatement';
 import SceneVideo from './components/SceneVideo';
 import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
-import SupportPage from './components/SupportPage';
+import SupportPage from './components/SupportPage';\nimport VastHeliumTest from './components/VastHeliumTest';
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -18,7 +18,7 @@ export default function App() {
   if (path === '/copyright') return <LegalPage kind="copyright" />;
   if (path === '/platform-terms') return <LegalPage kind="platform-terms" />;
   if (path === '/publisher-terms') return <LegalPage kind="publisher-terms" />;
-  if (path === '/publishing-policy') return <LegalPage kind="publishing-policy" />;
+  if (path === '/publishing-policy') return <LegalPage kind="publishing-policy" />;\n  if (path === '/vastheliumtest') return <VastHeliumTest />;
 
   return (
     <>
