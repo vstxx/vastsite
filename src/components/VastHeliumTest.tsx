@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, ChevronRight, Download, Github } from 'lucide-react';
+import { ArrowRight, ChevronRight, Download, GitFork } from 'lucide-react';
 import './vast-helium-test.css';
 
 const GITHUB_URL = 'https://github.com/vstxx/vast-public';
@@ -223,7 +223,7 @@ export default function VastHeliumTest() {
 
           <div className="vh-source__actions">
             <a className="vh-button vh-button--light" href={GITHUB_URL} target="_blank" rel="noreferrer">
-              <Github aria-hidden="true" />
+              <GitFork aria-hidden="true" />
               View source
             </a>
             <a className="vh-button vh-button--dark" href={DOCS_URL}>
