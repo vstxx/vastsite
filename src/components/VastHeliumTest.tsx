@@ -215,16 +215,10 @@ function ComparisonVisual({ value, onChange }: { value: number; onChange: (value
   );
 }
 
-let externalComparisonSetter: ((value: number) => void) | null = null;
-
-function setComparisonValueFromInput(event: React.ChangeEvent<HTMLInputElement>) {
-  externalComparisonSetter?.(Number(event.target.value));
-}
 
 export default function VastHeliumTest() {
   const [scrolled, setScrolled] = useState(false);
   const [comparisonValue, setComparisonValue] = useState(56);
-  externalComparisonSetter = setComparisonValue;
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -237,7 +231,6 @@ export default function VastHeliumTest() {
     return () => {
       document.title = previousTitle;
       window.removeEventListener('scroll', onScroll);
-      externalComparisonSetter = null;
     };
   }, []);
 
