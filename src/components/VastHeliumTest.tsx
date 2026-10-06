@@ -150,7 +150,7 @@ function SourceVisual() {
   );
 }
 
-function ComparisonVisual({ value }: { value: number }) {
+function ComparisonVisual({ value, onChange }: { value: number; onChange: (value: number) => void }) {
   return (
     <div className="helium-comparison-visual">
       <div className="helium-comparison-base" aria-hidden="true">
@@ -208,7 +208,7 @@ function ComparisonVisual({ value }: { value: number }) {
         min="10"
         max="90"
         value={value}
-        onChange={(event) => setComparisonValueFromInput(event)}
+        onChange={(event) => onChange(Number(event.target.value))}
         aria-label="Compare a noisy page with a cleaner browsing view"
       />
     </div>
@@ -376,7 +376,7 @@ export default function VastHeliumTest() {
                 <button type="button">a noisy browser</button>
               </div>
             </div>
-            <ComparisonVisual value={comparisonValue} />
+            <ComparisonVisual value={comparisonValue} onChange={setComparisonValue} />
           </section>
 
           <section className="helium-ready-section">
