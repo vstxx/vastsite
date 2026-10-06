@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -106,7 +106,7 @@ test('renders an open download section and minimal footer', async () => {
   assert.match(cta, /target="_blank"/);
   assert.match(footer, /Vast, Infinite By Design/);
   assert.deepEqual([...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]), [
-    'https://discord.gg/f7bnZ3cmq', '/legal', '/privacy', '/terms',
+    'https://discord.gg/f7bnZ3cmq', '/legal', '/privacy', '/terms', '/brand',
   ]);
   assert.match(footer, /Terms of Use/);
   assert.match(footer, /discord\.gg\/f7bnZ3cmq/);
@@ -278,4 +278,23 @@ test('does not include the site demo locally', async () => {
   await assert.rejects(read('src/components/SiteDemoLower.tsx'), { code: 'ENOENT' });
   await assert.rejects(read('src/components/site-demo.css'), { code: 'ENOENT' });
   await assert.rejects(read('public/site-demo/vast-main-ui.webp'), { code: 'ENOENT' });
+});
+
+test('publishes the brand kit with the existing logo files', async () => {
+  const [app, footer, brand] = await Promise.all([
+    read('src/App.tsx'),
+    read('src/components/SiteFooter.tsx'),
+    read('src/components/BrandKitPage.tsx'),
+  ]);
+
+  assert.match(app, /path === '\/brand'/);
+  assert.match(footer, /href="\/brand">Brand Kit<\/a>/);
+  for (const asset of ['vast2.png', 'vast.png', 'vasticon.png', 'v-v.png']) {
+    assert.match(brand, new RegExp(`/logos/${asset.replace('.', '\\.')}`));
+    await access(new URL(`../public/logos/${asset}`, import.meta.url));
+  }
+  assert.match(brand, /\/favicon\.svg/);
+  await access(new URL('../public/favicon.svg', import.meta.url));
+  assert.match(brand, /#6C1293/i);
+  assert.match(brand, /#C272FF/i);
 });

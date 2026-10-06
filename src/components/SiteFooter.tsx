@@ -10,6 +10,7 @@ export default function SiteFooter() {
         <a href="/legal">Legal</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms of Use</a>
+        <a href="/brand">Brand Kit</a>
       </div>
     </footer>
   );
