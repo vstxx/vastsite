@@ -95,9 +95,9 @@ export default function LegalPage({ kind }: { kind: LegalKind }) {
   useEffect(() => { document.title = `${page.title} · Vast Browser`; }, [page.title]);
   return (
     <div className="subpage-shell">
-      <header className="subpage-header"><a className="vast-control" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a></header>
+      <header className="subpage-header"><a className="legal-back-link" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a></header>
       <main className="legal-page">
-        <div className="legal-heading"><p>{notices[page.groups[0]].eyebrow}</p><h1>{page.title}</h1><span>{page.intro}</span></div>
+        <div className="legal-heading"><h1>{page.title}</h1><span>{page.intro}</span></div>
         <div className="legal-sections">
           {page.groups.map((group, index) => {
             const notice = notices[group];
