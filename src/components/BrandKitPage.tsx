@@ -6,7 +6,6 @@ import './brand-kit.css';
 const logos = [
   {
     name: 'Logo on black',
-    note: 'Symbol and wordmark · 1584 × 396 px',
     path: '/logos/vast2.png',
     file: 'vast2.png',
     format: 'PNG',
@@ -15,7 +14,6 @@ const logos = [
   },
   {
     name: 'White wordmark',
-    note: 'Transparent · 1584 × 396 px',
     path: '/logos/vast.png',
     file: 'vast.png',
     format: 'PNG',
@@ -24,7 +22,6 @@ const logos = [
   },
   {
     name: 'Vast symbol',
-    note: 'Transparent · 605 × 605 px',
     path: '/logos/vasticon.png',
     file: 'vasticon.png',
     format: 'PNG',
@@ -32,21 +29,11 @@ const logos = [
     wide: false,
   },
   {
-    name: 'White monogram',
-    note: 'Transparent · 1080 × 1080 px',
+    name: 'Legacy Vast logo (pre-beta)',
     path: '/logos/v-v.png',
     file: 'v-v.png',
     format: 'PNG',
     preview: 'violet',
-    wide: false,
-  },
-  {
-    name: 'Additional SVG mark',
-    note: 'SVG · the site currently uses the PNG symbol as its favicon',
-    path: '/favicon.svg',
-    file: 'favicon.svg',
-    format: 'SVG',
-    preview: 'dark',
     wide: false,
   },
 ] as const;
@@ -62,13 +49,11 @@ const colors = [
 const gradients = [
   {
     name: 'Ambient violet',
-    note: 'Hero glow',
     css: 'radial-gradient(ellipse, rgba(105, 0, 181, .48) 0%, rgba(105, 0, 181, .18) 42%, transparent 72%)',
     preview: 'glow',
   },
   {
     name: 'Dark surface',
-    note: 'Website panels',
     css: 'linear-gradient(145deg, rgba(24, 22, 31, .72), rgba(12, 12, 17, .58))',
     preview: 'surface',
   },
@@ -86,13 +71,11 @@ export default function BrandKitPage() {
       <main className="brand-kit">
         <div className="brand-kit__intro">
           <h1>Brand Kit</h1>
-          <p>Logos and colors used on this site. Vast’s interface changes with its theme.</p>
         </div>
 
         <section className="brand-kit__section" aria-labelledby="brand-logos">
           <div className="brand-kit__section-heading">
             <h2 id="brand-logos">Logos</h2>
-            <p>Use the supplied files without stretching or recoloring them.</p>
           </div>
           <div className="brand-assets">
             {logos.map((logo) => (
@@ -101,7 +84,7 @@ export default function BrandKitPage() {
                   <img src={logo.path} alt={logo.name} loading="lazy" />
                 </div>
                 <div className="brand-asset__details">
-                  <div><h3>{logo.name}</h3><p>{logo.note}</p></div>
+                  <h3>{logo.name}</h3>
                   <a href={logo.path} download={logo.file}>Download {logo.format}</a>
                 </div>
               </article>
@@ -112,7 +95,6 @@ export default function BrandKitPage() {
         <section className="brand-kit__section" aria-labelledby="brand-colors">
           <div className="brand-kit__section-heading">
             <h2 id="brand-colors">Colors</h2>
-            <p>The primary violet is sampled from the PNG symbol. The lighter violet is used for text accents on this website.</p>
           </div>
           <div className="brand-colors">
             {colors.map((color) => (
@@ -129,13 +111,12 @@ export default function BrandKitPage() {
         <section className="brand-kit__section" aria-labelledby="brand-gradients">
           <div className="brand-kit__section-heading">
             <h2 id="brand-gradients">Gradients</h2>
-            <p>These treatments come from the current website. The logo files themselves are supplied without a gradient.</p>
           </div>
           <div className="brand-gradients">
             {gradients.map((gradient) => (
               <div className="brand-gradient" key={gradient.name}>
                 <div className={`brand-gradient__preview brand-gradient__preview--${gradient.preview}`} aria-hidden="true" />
-                <div className="brand-gradient__details"><h3>{gradient.name}</h3><span>{gradient.note}</span></div>
+                <div className="brand-gradient__details"><h3>{gradient.name}</h3></div>
                 <code>{gradient.css}</code>
               </div>
             ))}
@@ -145,7 +126,6 @@ export default function BrandKitPage() {
         <section className="brand-kit__section brand-kit__section--type" aria-labelledby="brand-type">
           <div className="brand-kit__section-heading">
             <h2 id="brand-type">Typography</h2>
-            <p>The website uses Inter Display. Use the supplied wordmark file for the Vast name in a logo.</p>
           </div>
           <div className="brand-type"><span>Inter Display</span><strong>Vast Browser</strong><p>Light · Regular · Medium</p></div>
         </section>

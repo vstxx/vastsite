@@ -293,8 +293,8 @@ test('publishes the brand kit with the existing logo files', async () => {
     assert.match(brand, new RegExp(`/logos/${asset.replace('.', '\\.')}`));
     await access(new URL(`../public/logos/${asset}`, import.meta.url));
   }
-  assert.match(brand, /\/favicon\.svg/);
-  await access(new URL('../public/favicon.svg', import.meta.url));
+  assert.match(brand, /Legacy Vast logo \(pre-beta\)/);
+  assert.doesNotMatch(brand, /Additional SVG mark|\/favicon\.svg/);
   assert.match(brand, /#6C1293/i);
   assert.match(brand, /#C272FF/i);
 });
