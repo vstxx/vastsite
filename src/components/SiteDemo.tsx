@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import SiteDemoLower from './SiteDemoLower';
 import './site-demo.css';
 
 const GITHUB_URL = 'https://github.com/vstxx/vast-public';
@@ -78,6 +79,8 @@ export default function SiteDemo() {
             </div>
           </div>
         </section>
+
+        <SiteDemoLower />
       </main>
     </div>
   );
