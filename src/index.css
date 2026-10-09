@@ -256,7 +256,7 @@ button {
   width: min(94vw, 1640px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: clamp(26px, 3vw, 44px);
+  border-radius: 8px;
   background: #000;
   box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
 }
@@ -1426,7 +1426,7 @@ button {
   }
 
   .film {
-    border-radius: 20px;
+    border-radius: 6px;
   }
 
   .download__card { padding-inline: 4px; }
