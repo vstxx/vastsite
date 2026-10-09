@@ -243,81 +243,28 @@ button {
 
 .film-section {
   position: relative;
-  min-height: 132svh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16svh var(--page-gutter);
+  padding: 12svh var(--page-gutter);
   background: #050507;
-}
-
-.film-section::before {
-  content: '';
-  position: absolute;
-  width: 84%;
-  height: 46%;
-  background: radial-gradient(ellipse 50% 50% at center, rgba(var(--accent-rgb), 0.15), rgba(var(--accent-rgb), 0.05) 55%, transparent 78%);
-  pointer-events: none;
 }
 
 .film {
   position: relative;
   width: min(94vw, 1640px);
-  height: min(82svh, 940px);
-  min-height: 480px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: clamp(26px, 3vw, 44px);
-  background: rgba(8, 8, 12, 0.84);
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42), var(--glass-highlight), 0 0 44px rgba(var(--accent-rgb), 0.07);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
-  backdrop-filter: blur(18px) saturate(120%);
-  transform-origin: center;
-  will-change: transform, opacity;
+  background: #000;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
 }
 
-.film__fallback,
-.film__video,
-.film__edge {
-  position: absolute;
-  inset: 0;
-}
-
-.film__fallback {
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: #07070b;
-}
-
-.film__fallback span {
-  position: relative;
-  z-index: 2;
-  color: rgba(235, 231, 241, 0.4);
-  font-family: 'InterDisplay', sans-serif;
-  font-size: clamp(13px, 1.2vw, 16px);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-}
-
-.film__video {
-  z-index: 3;
+.film__image {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.film__video.is-ready {
-  opacity: 1;
-}
-
-.film__edge {
-  z-index: 4;
-  pointer-events: none;
-  border-radius: inherit;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), inset 0 0 80px rgba(0, 0, 0, 0.12);
+  height: auto;
 }
 
 .why {
@@ -1417,14 +1364,12 @@ button {
   }
 
   .film-section {
-    min-height: 110svh;
+    min-height: 80svh;
     padding-block: 12svh;
   }
 
   .film {
     width: 100%;
-    height: 70svh;
-    min-height: 430px;
   }
 
   .why__inner h2 {
@@ -1481,8 +1426,6 @@ button {
   }
 
   .film {
-    height: 64svh;
-    min-height: 380px;
     border-radius: 20px;
   }
 

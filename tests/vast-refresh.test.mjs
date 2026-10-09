@@ -44,24 +44,18 @@ test('restores the original Vast logo reveal without copy underneath', async () 
   assert.match(css, /\.hero__ambient[\s\S]*animation: ambient-drift 12s/);
 });
 
-test('provides a rounded scroll-revealed autoplay video with a fallback', async () => {
+test('shows the Vast screenshot without loading or animating a video', async () => {
   const [video, css] = await Promise.all([
     read('src/components/SceneVideo.tsx'),
     read('src/index.css'),
   ]);
 
-  assert.match(video, /<video/);
-  assert.match(video, /autoPlay/);
-  assert.match(video, /loop/);
-  assert.match(video, /muted/);
-  assert.match(video, /playsInline/);
-  assert.match(video, /vast-animation\.webm/);
-  assert.match(video, /vast-animation\.mp4/);
-  assert.match(video, /useScroll/);
-  assert.match(video, /film__fallback/);
-  assert.match(video, /promotional video coming soon™/);
+  assert.match(video, /<img/);
+  assert.match(video, /src="\/images\/vast-browser\.png"/);
+  assert.doesNotMatch(video, /<video|useScroll|promotional video coming soon™/);
+  await access(new URL('../public/images/vast-browser.png', import.meta.url));
   assert.match(css, /\.film\s*\{[\s\S]*border-radius:/);
-  assert.match(css, /\.film\s*\{[\s\S]*height: min\(82svh, 940px\)/);
+  assert.doesNotMatch(css.match(/\.film\s*\{[^}]*\}/)?.[0] ?? '', /backdrop-filter|will-change/);
 });
 
 test('renders an accessible expandable Why Vast explanation', async () => {
