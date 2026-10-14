@@ -219,6 +219,8 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.deepEqual(currentRelease.files.map(({ file, bytes, sha256 }) => [file, bytes, sha256]), expectedAssets);
   for (const asset of currentRelease.files) {
     assert.equal(asset.url, `https://github.com/vstxx/vast-public/releases/download/v0.5.0/${asset.file}`);
+    const response = await fetch(asset.url, { method: 'HEAD' });
+    assert.equal(response.status, 200, `published asset is unavailable: ${asset.url}`);
   }
   assert.equal(releaseManifest.releases[2].version, '0.4.2');
   assert.equal(releaseManifest.releases[2].channel, 'Legacy');
