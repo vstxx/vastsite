@@ -21,7 +21,7 @@ test('uses the Vast icon and concise browser title', async () => {
 
   assert.match(html, /href="\/logos\/vasticon\.png"/);
   assert.match(html, /<title>Vast Browser<\/title>/);
-  assert.match(html, /rel="canonical" href="https:\/\/vastbrowser\.com\//);
+  assert.doesNotMatch(html, /rel="canonical"/);
   assert.match(html, /property="og:url" content="https:\/\/vastbrowser\.com\//);
   assert.match(html, /property="og:image" content="https:\/\/vastbrowser\.com\/logos\/vast2\.png"/);
   assert.match(html, /name="twitter:image" content="https:\/\/vastbrowser\.com\/logos\/vast2\.png"/);
