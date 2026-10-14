@@ -21,8 +21,10 @@ test('uses the Vast icon and concise browser title', async () => {
 
   assert.match(html, /href="\/logos\/vasticon\.png"/);
   assert.match(html, /<title>Vast Browser<\/title>/);
-  assert.match(html, /property="og:image" content="https:\/\/vastsite\.pages\.dev\/logos\/vast2\.png"/);
-  assert.match(html, /name="twitter:image" content="https:\/\/vastsite\.pages\.dev\/logos\/vast2\.png"/);
+  assert.match(html, /rel="canonical" href="https:\/\/vastbrowser\.com\//);
+  assert.match(html, /property="og:url" content="https:\/\/vastbrowser\.com\//);
+  assert.match(html, /property="og:image" content="https:\/\/vastbrowser\.com\/logos\/vast2\.png"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/vastbrowser\.com\/logos\/vast2\.png"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
 });
 
@@ -320,4 +322,27 @@ test('states the desktop source license and documents the real release manifest'
   }
   assert.match(publishingGuide, /GitHub release assets/i);
   assert.match(publishingGuide, /immutable/i);
+});
+
+test('keeps public page routes linked and the release controls usable on mobile', async () => {
+  const [app, support, footer, releases, css] = await Promise.all([
+    read('src/App.tsx'),
+    read('src/components/SupportPage.tsx'),
+    read('src/components/SiteFooter.tsx'),
+    read('src/components/ReleasesPage.tsx'),
+    read('src/index.css'),
+  ]);
+
+  for (const route of ['/releases', '/support', '/brand', '/legal', '/privacy', '/terms']) {
+    assert.match(app, new RegExp(`path === '${route.replaceAll('/', '\\/')}'`));
+  }
+  for (const route of ['/legal', '/privacy', '/terms', '/brand']) assert.match(footer, new RegExp(`href="${route}"`));
+  for (const href of ['https://docs.vastbrowser.com', 'https://github.com/vstxx/vast-public/issues', 'https://discord.gg/f7bnZ3cmq', 'https://github.com/vstxx/vast-public/security/advisories/new', '/privacy']) {
+    assert.ok(support.includes(href), `support route is missing ${href}`);
+  }
+  assert.match(releases, /fetch\('\/downloads\/manifest\.json'\)/);
+  assert.match(releases, /release-download-menu__panel/);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.release-download-menu\s*\{[^}]*flex: 1 1 auto/);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.release-download__trigger\s*\{[^}]*width: 100%[^}]*min-width: 0/);
+  assert.match(css, /\.release-modal__dialog\s*\{[^}]*max-height: min\(780px, calc\(100svh - 48px\)\)[^}]*overflow-y: auto/);
 });
