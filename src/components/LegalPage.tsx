@@ -38,7 +38,7 @@ const notices = {
     eyebrow: 'Legal', title: 'Copyright/IP Notice',
     intro: `Effective 24 August 2026. Copyright/IP notice for Vast-owned and third-party materials (${new Date().getFullYear()}).`,
     sections: [
-      ['Vast-owned source', 'The MIT License applies only to source code owned by Vast where the relevant repository identifies that license. It does not automatically cover every file shipped with the product.'],
+      ['Vast-owned source', 'Vast-owned desktop source is licensed under GPL-3.0-only. This license does not automatically cover every file shipped with the product.'],
       ['Website content', 'Unless stated otherwise, original website design, text, graphics, logos and other Vast-owned materials may not be presented as your own or used to imply endorsement.'],
       ['Third-party materials', 'Extensions, libraries, names, icons, screenshots and other third-party materials remain the property of their respective owners and are governed by their own licenses and terms.'],
       ['Rights reports', 'Use the Report extension flow in the Extensions Hub for copyright, trademark, impersonation or other rights concerns. Reports receive human review and do not trigger automatic delisting.'],

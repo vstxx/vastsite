@@ -304,3 +304,20 @@ test('publishes the brand kit with the existing logo files', async () => {
   assert.match(brand, /#6C1293/i);
   assert.match(brand, /#C272FF/i);
 });
+
+test('states the desktop source license and documents the real release manifest', async () => {
+  const [legal, publishingGuide] = await Promise.all([
+    read('src/components/LegalPage.tsx'),
+    read('public/downloads/README.md'),
+  ]);
+
+  assert.match(legal, /Vast-owned desktop source is licensed under GPL-3\.0-only/i);
+  assert.match(legal, /Third-party materials.*their own licenses/i);
+  assert.doesNotMatch(legal, /Vast-owned desktop source.{0,80}MIT/i);
+  assert.doesNotMatch(publishingGuide, /example\.com|1\.0\.0/i);
+  for (const field of ['version', 'previousVersion', 'date', 'channel', 'releaseUrl', 'documentationUrl', 'changelog', 'notes', 'files', 'bytes', 'sha256']) {
+    assert.match(publishingGuide, new RegExp(`\\b${field}\\b`));
+  }
+  assert.match(publishingGuide, /GitHub release assets/i);
+  assert.match(publishingGuide, /immutable/i);
+});
