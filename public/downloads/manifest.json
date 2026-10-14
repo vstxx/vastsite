@@ -1,10 +1,81 @@
 {
   "releases": [
     {
+      "version": "0.5.0",
+      "previousVersion": "0.4.3",
+      "date": "2026-10-14",
+      "channel": "Official",
+      "description": "Vast 0.5.0 improves extension installation, sidebar controls, and everyday browser interactions.",
+      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.5.0",
+      "documentationUrl": "https://docs.vastbrowser.com/releases/0-5-0/",
+      "changelog": [
+        {
+          "title": "What's new",
+          "items": [
+            "Install extensions by pasting a Chrome Web Store listing URL into Vast.",
+            "Use the updated sidebar controls to collapse and expand it more smoothly."
+          ]
+        },
+        {
+          "title": "Improvements and fixes",
+          "items": [
+            "Improved extension runtime stability and the iCloud Passwords native-host lifecycle.",
+            "Made tab rearranging smoother without unnecessary page reloads, and improved fullscreen behavior and keyboard shortcuts.",
+            "Refined the address bar, Settings, and appearance controls, and hardened permission checks for the site that requests access."
+          ]
+        },
+        {
+          "title": "Important upgrade information",
+          "items": [
+            "Direct installations on 0.4.3 update automatically through the stable update channel. Users on 0.4.2 must run the 0.5.0 setup installer or standalone updater once; their browser profile is preserved.",
+            "Portable users should download the new Portable executable. Microsoft Store uses a separate release and update process, and its available version may differ."
+          ]
+        },
+        {
+          "title": "Known limitations",
+          "items": [
+            "Full Chrome Web Store browsing remains guarded; install an extension using its listing URL. Extensions are unavailable in private or ephemeral workspaces.",
+            "Extension and external password-manager compatibility varies. Basic password-manager canaries passed, but this is not a universal compatibility certification."
+          ]
+        }
+      ],
+      "notes": [
+        "Direct installer, Portable executable, and standalone updater are intentionally unsigned. Windows may show Unknown publisher or SmartScreen warnings. Verify the published SHA-256 checksum before running an executable.",
+        "The 0.4.2 updater handoff is unreliable. If you use 0.4.2, close Vast and manually run the 0.5.0 setup installer or standalone updater once. Direct 0.4.3 installations update automatically through stable-v2.",
+        "Portable installations require the new Portable executable. Microsoft Store uses a separate package, profile, certification, and update channel; Store availability for 0.5.0 is unconfirmed."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.5.0.exe",
+          "size": "315.83 MiB",
+          "bytes": 331167232,
+          "sha256": "796d5546f64daedf0233a92ceb22aeba8d806cec767659099c85b2b79816431d",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.0/Vast-Setup-0.5.0.exe"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.5.0-Portable.exe",
+          "size": "264.17 MiB",
+          "bytes": 277005285,
+          "sha256": "5dcf2348ba96a79e7a18691ef1a69dc3a8ad6c11827faf55e6dca214ed9ed69f",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.0/Vast-0.5.0-Portable.exe"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.5.0.exe",
+          "size": "33.48 MiB",
+          "bytes": 35101452,
+          "sha256": "70cb481e0dc9ddd8ca421bec851c92554f7d5480bc142e3ba87ca8a8c1721b4d",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.0/VastUpdater-0.5.0.exe"
+        }
+      ]
+    },
+    {
       "version": "0.4.3",
       "previousVersion": "0.4.2",
       "date": "2026-10-05",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast 0.4.3 improves startup, browsing responsiveness, tab retention, Settings, and sidebar performance.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.4.3",
       "documentationUrl": "https://docs.vastbrowser.com/releases/0-4-3/",
