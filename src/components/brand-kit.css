@@ -1,6 +1,6 @@
 .brand-kit-shell {
   background:
-    radial-gradient(ellipse 65% 24% at 50% 0%, rgba(105, 0, 181, 0.12), transparent 78%),
+    radial-gradient(ellipse 65% 24% at 50% 0%, rgba(105, 0, 181, 0.04), transparent 78%),
     #050507;
 }
 
@@ -74,14 +74,6 @@
 
 .brand-asset__preview--dark {
   background: #0a090e;
-}
-
-.brand-asset__preview--light {
-  background: #f4f1f7;
-}
-
-.brand-asset__preview--violet {
-  background: #6c1293;
 }
 
 .brand-asset__preview img {

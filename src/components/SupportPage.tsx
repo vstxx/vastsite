@@ -41,7 +41,7 @@ export default function SupportPage() {
   return (
     <div className="subpage-shell">
       <header className="subpage-header">
-        <a className="vast-control" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a>
+        <a className="legal-back-link" href="/"><ArrowLeft aria-hidden="true" />Back to Vast</a>
       </header>
       <main className="legal-page">
         <div className="legal-heading">

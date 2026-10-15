@@ -1,8 +1,9 @@
 import './index.css';
 import SceneCTA from './components/SceneCTA';
 import SceneDetails from './components/SceneDetails';
-import SceneLogo from './components/SceneLogo';
-import SceneStatement from './components/SceneStatement';
+import SceneHero from './components/SceneHero';
+import ScenePerformance from './components/ScenePerformance';
+import SiteHeader from './components/SiteHeader';
 import SceneVideo from './components/SceneVideo';
 import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
@@ -26,9 +27,10 @@ export default function App() {
   return (
     <>
       <div className="noise-overlay" aria-hidden="true" />
+      <SiteHeader />
       <main id="top">
-        <SceneLogo />
-        <SceneStatement />
+        <SceneHero />
+        <ScenePerformance />
         <SceneVideo />
         <SceneDetails />
         <SceneCTA />

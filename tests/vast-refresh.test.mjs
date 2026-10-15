@@ -4,16 +4,18 @@ import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('renders the new four-part page in the intended scroll order', async () => {
+test('renders the page in the intended scroll order', async () => {
   const app = await read('src/App.tsx');
 
-  const logo = app.indexOf('<SceneLogo />');
+  const hero = app.indexOf('<SceneHero />');
+  const performance = app.indexOf('<ScenePerformance />');
   const video = app.indexOf('<SceneVideo />');
   const details = app.indexOf('<SceneDetails />');
   const cta = app.indexOf('<SceneCTA />');
 
-  assert.ok(logo > -1 && logo < video && video < details && details < cta);
-  assert.doesNotMatch(app, /SceneSlogan|SceneProduct|CinematicControls/);
+  assert.ok(hero > -1 && hero < performance && performance < video && video < details && details < cta);
+  assert.doesNotMatch(app, /SceneLogo|SceneStatement|SceneSlogan|SceneProduct|CinematicControls/);
+  assert.match(app, /<SiteHeader \/>/);
 });
 
 test('uses the Vast icon and concise browser title', async () => {
@@ -28,22 +30,36 @@ test('uses the Vast icon and concise browser title', async () => {
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
 });
 
-test('restores the original Vast logo reveal without copy underneath', async () => {
-  const [hero, css] = await Promise.all([
-    read('src/components/SceneLogo.tsx'),
+test('opens with the word-by-word headline and download/explore actions', async () => {
+  const [hero, header, css] = await Promise.all([
+    read('src/components/SceneHero.tsx'),
+    read('src/components/SiteHeader.tsx'),
     read('src/index.css'),
   ]);
 
-  assert.match(hero, /src="\/logos\/vast\.png"/);
-  assert.match(hero, /filter: 'blur\(28px\)'/);
-  assert.match(hero, /duration: reduced \? 0\.3 : 2\.6/);
-  assert.doesNotMatch(hero, /Vast, Infinite By Design/);
-  assert.doesNotMatch(hero, /coming soon|setInterval|AnimatePresence/i);
-  assert.match(css, /\.hero__logo img[\s\S]*top: -88\.889%/);
-  assert.match(css, /\.hero__logo[\s\S]*drop-shadow/);
-  assert.doesNotMatch(css, /\.hero__logo\s*\{[^}]*overflow: hidden/);
-  assert.match(css, /\.hero__logo-crop\s*\{[^}]*overflow: hidden/);
+  assert.match(hero, /Browser built to look and work your way\./);
+  assert.match(hero, /WORDS\.map/);
+  assert.match(hero, /useReducedMotion/);
+  assert.match(hero, /href="\/releases">[\s\S]*?<Download[\s\S]*?Download\s*<\/a>/);
+  assert.match(hero, /href="#performance"[^>]*>[\s\S]*?<ArrowDown[\s\S]*?Explore\s*<\/a>/);
+  assert.match(hero, /scrollIntoView/);
+  assert.doesNotMatch(hero, /\/logos\/vast\.png/);
+  assert.match(header, /src="\/logos\/vast-lockup\.png"/);
+  assert.match(css, /\.hero__actions\s*\{[^}]*height: 40px/);
   assert.match(css, /\.hero__ambient[\s\S]*animation: ambient-drift 12s/);
+});
+
+test('presents the verified benchmark figures transparently', async () => {
+  const perf = await read('src/components/ScenePerformance.tsx');
+
+  assert.match(perf, /id="performance"/);
+  assert.match(perf, /35\.02/);
+  assert.match(perf, /33\.32/);
+  assert.match(perf, /on Speedometer 3\.1/);
+  assert.match(perf, /Vast scored 5\.1% higher than Google Chrome in our five-run Speedometer 3\.1 benchmark\./);
+  assert.match(perf, /At least 15% less RAM usage/);
+  assert.match(perf, /In our tests, Vast used at least 15% less RAM than Google Chrome\./);
+  assert.doesNotMatch(perf, /perf__note|perf__foot/);
 });
 
 test('shows the Vast screenshot without loading or animating a video', async () => {
@@ -60,28 +76,22 @@ test('shows the Vast screenshot without loading or animating a video', async () 
   assert.doesNotMatch(css.match(/\.film\s*\{[^}]*\}/)?.[0] ?? '', /backdrop-filter|will-change/);
 });
 
-test('renders an accessible expandable Why Vast explanation', async () => {
+test('describes extensions, sidebar, performance and settings', async () => {
   const [details, css] = await Promise.all([
     read('src/components/SceneDetails.tsx'),
     read('src/index.css'),
   ]);
 
-  assert.match(details, /Why should I use Vast\?/);
-  assert.match(details, /aria-expanded=\{open\}/);
-  assert.match(details, /aria-controls="why-answer"/);
-  assert.match(details, /why__continuation/);
-  assert.match(details, /Continue Reading/);
-  assert.match(details, /Your browser should support the way you think/);
-  assert.match(details, /Vast collects no browsing telemetry/);
-  assert.match(details, /The result is a browser that feels calm/);
-  assert.doesNotMatch(details, /Built for a calmer web/);
-  assert.match(css, /mask-image: linear-gradient/);
-  assert.match(css, /\.why__continuation\.is-open/);
-  assert.match(css, /\.why__continuation\.is-open[\s\S]*max-height: 900px/);
+  assert.doesNotMatch(details, /A browser you can actually make your own|Why should I use Vast\?|Continue Reading|aria-expanded/);
+  assert.match(details, /className="sr-only"/);
+  assert.match(details, /title: 'Extensions'/);
+  assert.match(details, /Extension Hub/);
+  assert.match(details, /sidebar/i);
+  assert.match(details, /Quick, and easy on memory/);
+  assert.match(details, /Settings that go deep/);
+  assert.match(css, /\.why__row\s*\{[^}]*grid-template-columns/);
   const whyInnerRule = css.match(/\.why__inner\s*\{[\s\S]*?\}/)?.[0] ?? '';
   assert.doesNotMatch(whyInnerRule, /border|background|backdrop-filter/);
-  assert.match(details, /initial=\{titleHidden\}/);
-  assert.match(details, /filter: 'blur\(12px\)'/);
 });
 
 test('renders an open download section and minimal footer', async () => {
@@ -125,7 +135,8 @@ test('uses the higher-contrast Vast purple accent consistently', async () => {
 
   assert.match(css, /--accent:\s*#6900b5/i);
   assert.match(css, /--accent-text:\s*#c272ff/i);
-  assert.match(css, /\.release__meta span[\s\S]*color:\s*var\(--accent-text\)/);
+  const tagRule = css.match(/\.release__meta span\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  assert.doesNotMatch(tagRule, /accent|background/);
   assert.match(css, /\.release-modal__label[\s\S]*color:\s*var\(--accent-text\)/);
   assert.doesNotMatch(css, /rgba\(190,\s*165,\s*238,\s*0\.56\)/);
 });
@@ -168,7 +179,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(releases, /Show full changelog/);
   assert.match(releases, /Collapse changelog/);
   assert.doesNotMatch(releases, /<p>Releases<\/p>/);
-  assert.match(releases, /<h1>Vast Releases<\/h1>/);
+  assert.match(releases, /<h1>Releases<\/h1>/);
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);
   assert.match(releases, /Your download has started/);
   assert.match(releases, /Report bugs on Discord/);
@@ -257,15 +268,17 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.doesNotMatch(releases, /Vast is still in beta/);
 });
 
-test('uses the rounded glass Vast control style for buttons', async () => {
+test('uses compact, fully rounded buttons with a filled primary', async () => {
   const css = await read('src/index.css');
   const buttonRule = css.match(/\.button\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  const primaryRule = css.match(/\.button--primary\s*\{[\s\S]*?\}/)?.[0] ?? '';
 
-  assert.match(buttonRule, /border-radius: 17px/);
-  assert.match(buttonRule, /background: var\(--glass-surface\)/);
-  assert.match(buttonRule, /backdrop-filter: blur\(18px\)/);
-  assert.match(buttonRule, /font-weight: 600/);
-  assert.doesNotMatch(buttonRule, /border-radius: 999px/);
+  assert.match(buttonRule, /height: 40px/);
+  assert.match(buttonRule, /border-radius: 999px/);
+  assert.match(buttonRule, /background: transparent/);
+  assert.doesNotMatch(buttonRule, /backdrop-filter|box-shadow/);
+  assert.match(primaryRule, /background: #f2f0f6/);
+  assert.match(css, /\.button:focus-visible/);
 });
 
 test('includes responsive and reduced-motion safeguards', async () => {
@@ -276,8 +289,8 @@ test('includes responsive and reduced-motion safeguards', async () => {
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.doesNotMatch(css, /scroll-snap-type|overflow-y:\s*scroll/);
   assert.doesNotMatch(css, /Basenji/);
-  assert.match(css, /\.why__inner h2[\s\S]*font-weight: 600/);
-  assert.match(css, /\.why__inner[\s\S]*text-align: center/);
+  assert.match(css, /\.why__row h3[\s\S]*font-weight: 600/);
+  assert.doesNotMatch(css, /\.why__inner h2/);
 });
 
 
@@ -347,4 +360,38 @@ test('keeps public page routes linked and the release controls usable on mobile'
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.release-download-menu\s*\{[^}]*flex: 1 1 auto/);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.release-download__trigger\s*\{[^}]*width: 100%[^}]*min-width: 0/);
   assert.match(css, /\.release-modal__dialog\s*\{[^}]*max-height: min\(780px, calc\(100svh - 48px\)\)[^}]*overflow-y: auto/);
+});
+
+test('releases page: one-click installer, more-downloads menu, back link and sectioned releases', async () => {
+  const [releases, css] = await Promise.all([
+    read('src/components/ReleasesPage.tsx'),
+    read('src/index.css'),
+  ]);
+
+  assert.ok(releases.includes('Back to Vast'));
+  assert.ok(!releases.includes('SiteHeader'));
+  assert.ok(!releases.includes('Every build'));
+  assert.ok(releases.includes('release-download-main'));
+  assert.ok(releases.includes('onClick={() => startDownload(release, installer)}'));
+  assert.ok(releases.includes('More downloads'));
+  assert.ok(releases.indexOf('release-download-main') < releases.indexOf('release-download-menu'));
+  const releaseRule = css.match(/\.release\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  assert.match(releaseRule, /border: 1px solid/);
+  assert.match(releaseRule, /border-radius/);
+});
+
+test('back links are plain text links and release dropdown icons are monochrome', async () => {
+  const [releases, support, css] = await Promise.all([
+    read('src/components/ReleasesPage.tsx'),
+    read('src/components/SupportPage.tsx'),
+    read('src/index.css'),
+  ]);
+
+  assert.ok(releases.includes('className="legal-back-link"'));
+  assert.ok(support.includes('className="legal-back-link"'));
+  assert.ok(!css.includes('.vast-control'));
+  const iconRule = css.match(/\.release-download-menu__panel svg\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  assert.doesNotMatch(iconRule, /accent/);
+  const emRule = css.match(/\.release-download-menu__panel strong em\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  assert.doesNotMatch(emRule, /accent/);
 });

@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, Download, Info, MessageCircle, Package, ShoppingBag, X } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ChevronDown, Download, Info, MessageCircle, Package, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import SiteFooter from './SiteFooter';
 
@@ -118,6 +118,11 @@ export default function ReleasesPage() {
     setPendingDownload({ release, asset });
   };
 
+  // Short changelogs are always shown in full; long ones collapse behind a toggle.
+  const changelogItemCount = selectedRelease?.changelog?.reduce((total, section) => total + section.items.length, 0) ?? 0;
+  const changelogCollapsible = changelogItemCount > 12;
+  const changelogOpen = !changelogCollapsible || expandedChangelog;
+
   const officialReleases = releases.filter((release) => !isLegacy(release));
   const legacyReleases = releases.filter(isLegacy);
 
@@ -139,6 +144,16 @@ export default function ReleasesPage() {
       </div>
 
       <div className="release__files">
+        {installer && (
+          <button
+            className={`button release-download-main${isCurrentRelease ? ' button--primary' : ''}`}
+            type="button"
+            onClick={() => startDownload(release, installer)}
+          >
+            <Download className="button__icon button__icon--drop" aria-hidden="true" />
+            <span>Download</span>
+          </button>
+        )}
         <div className={`release-download-menu${openDownloadMenu === release.version ? ' is-open' : ''}`} data-download-menu>
           <button
             className="button release-download release-download__trigger"
@@ -148,8 +163,7 @@ export default function ReleasesPage() {
             aria-controls={menuId}
             onClick={() => setOpenDownloadMenu((current) => current === release.version ? null : release.version)}
           >
-            <Download aria-hidden="true" />
-            <span>Download</span>
+            <span>More downloads</span>
             <ChevronDown className="button__arrow" aria-hidden="true" />
           </button>
 
@@ -182,21 +196,22 @@ export default function ReleasesPage() {
             </div>
           )}
         </div>
-        <button className="release-info-trigger" type="button" aria-label={`Release information for Vast ${release.version}`} title="Release Information" onClick={() => {
+        <button className="button release-info-trigger" type="button" aria-label={`Release information for Vast ${release.version}`} title="Release Information" onClick={() => {
           setOpenDownloadMenu(null);
           setExpandedChangelog(false);
           setSelectedRelease(release);
         }}>
           <Info aria-hidden="true" />
+          <span>Details</span>
         </button>
       </div>
     </article>;
   };
 
   return (
-    <div className="subpage-shell">
+    <div className="subpage-shell releases-shell">
       <header className="subpage-header">
-        <a className="vast-control" href="/">
+        <a className="legal-back-link" href="/">
           <ArrowLeft aria-hidden="true" />
           Back to Vast
         </a>
@@ -204,7 +219,7 @@ export default function ReleasesPage() {
 
       <main className="releases-page">
         <div className="subpage-heading">
-          <h1>Vast Releases</h1>
+          <h1>Releases</h1>
         </div>
 
         <div className="release-list" aria-live="polite">
@@ -245,64 +260,83 @@ export default function ReleasesPage() {
         <div className="release-modal" role="presentation" onMouseDown={(event) => {
           if (event.target === event.currentTarget) setSelectedRelease(null);
         }}>
-          <section className="release-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="release-modal-title">
+          <section className="release-modal__dialog release-modal__dialog--details" role="dialog" aria-modal="true" aria-labelledby="release-modal-title">
             <button className="release-modal__close" type="button" aria-label="Close release information" onClick={() => setSelectedRelease(null)}>
               <X aria-hidden="true" />
             </button>
 
-            <span className="release-modal__label">{selectedRelease.channel ?? 'Release'}</span>
-            <h2 id="release-modal-title">Vast {selectedRelease.version}</h2>
-            {selectedRelease.description && <p className="release-modal__description">{selectedRelease.description}</p>}
+            <div className="release-modal__scroll">
+              <header className="release-modal__header">
+                <h2 id="release-modal-title">Vast {selectedRelease.version}</h2>
+                <p className="release-modal__meta">
+                  {selectedRelease.channel && <span className="release-modal__tag">{selectedRelease.channel}</span>}
+                  <time dateTime={selectedRelease.date}>{selectedRelease.date}</time>
+                  <span>Windows</span>
+                  {selectedRelease.files[0]?.size && <span>{selectedRelease.files[0].size}</span>}
+                </p>
+                {selectedRelease.description && <p className="release-modal__description">{selectedRelease.description}</p>}
+              </header>
 
-            <dl className="release-modal__facts">
-              <div><dt>Version</dt><dd>{selectedRelease.version}</dd></div>
-              <div><dt>Published</dt><dd>{selectedRelease.date}</dd></div>
-              <div><dt>Platform</dt><dd>Windows</dd></div>
-              <div><dt>File size</dt><dd>{selectedRelease.files[0]?.size ?? 'Not specified'}</dd></div>
-            </dl>
+              {selectedRelease.notes && selectedRelease.notes.length > 0 && (
+                <section className="release-modal__section" aria-labelledby="release-notes-title">
+                  <h3 id="release-notes-title">Good to know</h3>
+                  <ul className="release-modal__notes">
+                    {selectedRelease.notes.map((note) => <li key={note}>{note}</li>)}
+                  </ul>
+                </section>
+              )}
 
-            {selectedRelease.notes && selectedRelease.notes.length > 0 && (
-              <ul className="release-modal__notes">
-                {selectedRelease.notes.map((note) => <li key={note}>{note}</li>)}
-              </ul>
-            )}
+              {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
+                <section className={`release-modal__section release-modal__changelog${changelogOpen ? ' is-expanded' : ''}`} aria-labelledby="release-changelog-title">
+                  {changelogCollapsible ? (
+                    <h3 id="release-changelog-title">
+                      <button
+                        className="release-modal__changelog-toggle"
+                        type="button"
+                        aria-expanded={expandedChangelog}
+                        aria-controls="release-changelog-content"
+                        onClick={() => setExpandedChangelog((expanded) => !expanded)}
+                      >
+                        <span>Changes since {selectedRelease.previousVersion ?? 'the previous release'}</span>
+                        <span>
+                          {expandedChangelog ? 'Collapse changelog' : 'Show full changelog'}
+                          <ChevronDown aria-hidden="true" />
+                        </span>
+                      </button>
+                    </h3>
+                  ) : (
+                    <h3 id="release-changelog-title">Changes since {selectedRelease.previousVersion ?? 'the previous release'}</h3>
+                  )}
+                  <div className="release-modal__changelog-content" id="release-changelog-content">
+                    {selectedRelease.changelog.map((section) => (
+                      <div key={section.title}>
+                        <h4>{section.title}</h4>
+                        <ul>
+                          {section.items.map((item) => <li key={item}>{item}</li>)}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
-            {selectedRelease.releaseUrl && (
-              <p className="release-modal__description">
-                <a href={selectedRelease.releaseUrl} target="_blank" rel="noreferrer">All release files and checksums</a>
-                {selectedRelease.documentationUrl && <> · <a href={selectedRelease.documentationUrl} target="_blank" rel="noreferrer">{selectedRelease.version} documentation and update guide</a></>}
-              </p>
-            )}
-
-            {selectedRelease.changelog && selectedRelease.changelog.length > 0 && (
-              <section className={`release-modal__changelog${expandedChangelog ? ' is-expanded' : ''}`} aria-labelledby="release-changelog-title">
-                <h3 id="release-changelog-title">
-                  <button
-                    className="release-modal__changelog-toggle"
-                    type="button"
-                    aria-expanded={expandedChangelog}
-                    aria-controls="release-changelog-content"
-                    onClick={() => setExpandedChangelog((expanded) => !expanded)}
-                  >
-                    <span>Changes since {selectedRelease.previousVersion ?? 'the previous release'}</span>
-                    <span>
-                      {expandedChangelog ? 'Collapse changelog' : 'Show full changelog'}
-                      <ChevronDown aria-hidden="true" />
-                    </span>
-                  </button>
-                </h3>
-                <div className="release-modal__changelog-content" id="release-changelog-content">
-                  {selectedRelease.changelog.map((section) => (
-                    <div key={section.title}>
-                      <h4>{section.title}</h4>
-                      <ul>
-                        {section.items.map((item) => <li key={item}>{item}</li>)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
+              {(selectedRelease.releaseUrl || selectedRelease.documentationUrl) && (
+                <nav className="release-modal__links" aria-label="Release resources">
+                  {selectedRelease.releaseUrl && (
+                    <a href={selectedRelease.releaseUrl} target="_blank" rel="noreferrer">
+                      All release files and checksums
+                      <ArrowUpRight aria-hidden="true" />
+                    </a>
+                  )}
+                  {selectedRelease.documentationUrl && (
+                    <a href={selectedRelease.documentationUrl} target="_blank" rel="noreferrer">
+                      {selectedRelease.version} documentation and update guide
+                      <ArrowUpRight aria-hidden="true" />
+                    </a>
+                  )}
+                </nav>
+              )}
+            </div>
           </section>
         </div>
       )}

@@ -1,62 +1,52 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { EASE } from './motion';
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const points = [
+  {
+    title: 'Extensions',
+    text: 'Vast has its own Extension Hub for the tools you already rely on, like Bitwarden and Proton Pass. Want an ad blocker? It’s there when you ask for it, not forced on you.',
+  },
+  {
+    title: 'A sidebar that’s useful',
+    text: 'Bookmarks, notes and your download history live in a sidebar that’s always one click away, so you’re not digging through menus to find your own stuff.',
+  },
+  {
+    title: 'Quick, and easy on memory',
+    text: 'Tabs you aren’t using get unloaded until you need them, so your RAM goes to what you’re actually doing. The numbers are right above.',
+  },
+  {
+    title: 'Settings that go deep',
+    text: 'Change the corner radius, pick a theme, rework the address bar, fine-tune privacy controls. There’s a lot to tweak, and you never have to touch any of it.',
+  },
+];
 
 export default function SceneDetails() {
-  const ref = useRef<HTMLElement>(null);
-  const [open, setOpen] = useState(false);
   const reduced = useReducedMotion() ?? false;
-  const inView = useInView(ref, { once: true, margin: '-18% 0px' });
-  const titleHidden = reduced ? { opacity: 0 } : { opacity: 0, y: 30, filter: 'blur(12px)' };
-  const titleVisible = reduced ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' };
+
+  const reveal = {
+    initial: reduced ? { opacity: 0 } : { opacity: 0, y: 26 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-12% 0px' },
+  };
 
   return (
-    <section ref={ref} className="why" aria-labelledby="why-title">
+    <section className="why" aria-labelledby="why-title">
       <div className="why__inner">
-        <motion.h2
-          id="why-title"
-          initial={titleHidden}
-          animate={inView ? titleVisible : {}}
-          transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
-        >
-          Why should I use Vast?
-        </motion.h2>
-        <p className="why__intro">
-          Your browser should support the way you think without competing for your attention.
-          Vast keeps tabs, research, notes and sessions in one calm, private workspace, so the
-          context you&apos;ve built stays with you and getting back into your work feels natural.
-        </p>
+        <h2 id="why-title" className="sr-only">What makes Vast yours</h2>
 
-        <button
-          className={`why__continuation${open ? ' is-open' : ''}`}
-          type="button"
-          aria-expanded={open}
-          aria-controls="why-answer"
-          onClick={() => setOpen((value) => !value)}
-        >
-          <span id="why-answer" className="why__continuation-copy">
-            <span>
-              Everything important stays on your device and remains easy to restore.
-              Vast collects no browsing telemetry, and optional services are described
-              separately, so you&apos;re never left guessing what happens to your data.
-            </span>
-            <span>
-              Come back whenever you like; sessions are waiting exactly where you left them, while
-              inactive tabs are managed carefully to keep memory use predictable. Notes and research
-              stay tied to the browsing context that shaped them, instead of getting scattered
-              across tools that don&apos;t talk to each other.
-            </span>
-            <span>
-              The result is a browser that feels calm even when the work gets heavy. You get one
-              clear place to explore, organize and return to your ideas, without the interface
-              adding to the noise.
-            </span>
-          </span>
-          <span className="why__continuation-action">
-            {open ? 'Show less' : 'Continue Reading'}
-          </span>
-        </button>
+        <div className="why__list">
+          {points.map((point) => (
+            <motion.div
+              className="why__row"
+              key={point.title}
+              {...reveal}
+              transition={{ duration: reduced ? 0.3 : 1.1, ease: EASE }}
+            >
+              <h3>{point.title}</h3>
+              <p>{point.text}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

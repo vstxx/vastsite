@@ -25,7 +25,7 @@ const logos = [
     path: '/logos/vasticon.png',
     file: 'vasticon.png',
     format: 'PNG',
-    preview: 'light',
+    preview: 'black',
     wide: false,
   },
   {
@@ -33,7 +33,7 @@ const logos = [
     path: '/logos/v-v.png',
     file: 'v-v.png',
     format: 'PNG',
-    preview: 'violet',
+    preview: 'black',
     wide: false,
   },
 ] as const;

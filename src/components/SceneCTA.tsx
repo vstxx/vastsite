@@ -35,15 +35,15 @@ export default function SceneCTA() {
           transition={{ duration: reduced ? 0.3 : 0.9, ease: EASE, delay: reduced ? 0 : 0.18 }}
         >
           <a className="button button--primary" href="/releases">
-            <Download aria-hidden="true" />
+            <Download className="button__icon button__icon--drop" aria-hidden="true" />
             Releases
           </a>
           <a className="button button--secondary" href={GITHUB_URL} target="_blank" rel="noreferrer">
-            <GitFork aria-hidden="true" />
+            <GitFork className="button__icon" aria-hidden="true" />
             GitHub
           </a>
           <a className="button button--secondary" href={DOCUMENTATION_URL} target="_blank" rel="noreferrer">
-            <BookOpen aria-hidden="true" />
+            <BookOpen className="button__icon" aria-hidden="true" />
             Documentation
           </a>
         </motion.div>
