@@ -18,7 +18,7 @@ const supportItems = [
   {
     title: 'Community support',
     body: 'Ask usage questions, share feedback and discuss Vast with the community.',
-    href: 'https://discord.gg/f7bnZ3cmq',
+    href: 'https://discord.gg/QmQ54MArrB',
     label: 'Join Discord',
   },
   {

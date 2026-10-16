@@ -32,7 +32,7 @@ type PendingDownload = {
   asset: ReleaseFile;
 };
 
-const DISCORD_URL = 'https://discord.gg/f7bnZ3cmq';
+const DISCORD_URL = 'https://discord.gg/QmQ54MArrB';
 const MICROSOFT_STORE_URL = 'https://apps.microsoft.com/detail/9MTWRJCKMDTX?hl=neutral&gl=PL&ocid=pdpshare';
 
 const isLegacy = (release: Release) => (release.channel ?? '').trim().toLowerCase() === 'legacy';

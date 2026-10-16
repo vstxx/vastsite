@@ -112,10 +112,10 @@ test('renders an open download section and minimal footer', async () => {
   assert.match(cta, /target="_blank"/);
   assert.match(footer, /Vast, Infinite By Design/);
   assert.deepEqual([...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]), [
-    'https://discord.gg/f7bnZ3cmq', '/legal', '/privacy', '/terms', '/brand',
+    'https://discord.gg/QmQ54MArrB', '/legal', '/privacy', '/terms', '/brand',
   ]);
   assert.match(footer, /Terms of Use/);
-  assert.match(footer, /discord\.gg\/f7bnZ3cmq/);
+  assert.match(footer, /discord\.gg\/QmQ54MArrB/);
   assert.match(footer, /Join our Discord and give feedback/);
   assert.match(footer, /icons\.svg#discord-icon/);
   assert.match(icons, /id="discord-icon"[\s\S]*?<path fill="currentColor"/);
@@ -183,7 +183,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.doesNotMatch(releases, /Official builds, published in one quiet place\./);
   assert.match(releases, /Your download has started/);
   assert.match(releases, /Report bugs on Discord/);
-  assert.match(releases, /discord\.gg\/f7bnZ3cmq/);
+  assert.match(releases, /discord\.gg\/QmQ54MArrB/);
   assert.doesNotMatch(releases, /Continue download|Before you download/);
   assert.match(releases, /downloadLink\.click\(\)/);
   assert.ok(releases.indexOf('downloadLink.click()') < releases.indexOf('setPendingDownload({ release, asset })'));
@@ -352,7 +352,7 @@ test('keeps public page routes linked and the release controls usable on mobile'
     assert.match(app, new RegExp(`path === '${route.replaceAll('/', '\\/')}'`));
   }
   for (const route of ['/legal', '/privacy', '/terms', '/brand']) assert.match(footer, new RegExp(`href="${route}"`));
-  for (const href of ['https://docs.vastbrowser.com', 'https://github.com/vstxx/vast-public/issues', 'https://discord.gg/f7bnZ3cmq', 'https://github.com/vstxx/vast-public/security/advisories/new', '/privacy']) {
+  for (const href of ['https://docs.vastbrowser.com', 'https://github.com/vstxx/vast-public/issues', 'https://discord.gg/QmQ54MArrB', 'https://github.com/vstxx/vast-public/security/advisories/new', '/privacy']) {
     assert.ok(support.includes(href), `support route is missing ${href}`);
   }
   assert.match(releases, /fetch\('\/downloads\/manifest\.json'\)/);
@@ -394,4 +394,24 @@ test('back links are plain text links and release dropdown icons are monochrome'
   assert.doesNotMatch(iconRule, /accent/);
   const emRule = css.match(/\.release-download-menu__panel strong em\s*\{[\s\S]*?\}/)?.[0] ?? '';
   assert.doesNotMatch(emRule, /accent/);
+});
+
+test('header stays hidden at the top and is a short glass bar once scrolled', async () => {
+  const [header, css] = await Promise.all([
+    read('src/components/SiteHeader.tsx'),
+    read('src/index.css'),
+  ]);
+
+  assert.ok(header.includes('window.scrollY >'));
+  assert.ok(header.includes("{ passive: true }"));
+  assert.ok(header.includes('is-visible'));
+  for (const label of ['Releases', 'Extensions', 'Documentation', 'Discord']) assert.ok(header.includes(`>${label}<`) || header.includes(label));
+  assert.ok(header.includes('https://extensions.vastbrowser.com'));
+  assert.ok(header.includes('https://discord.gg/QmQ54MArrB'));
+  const base = css.match(/\.site-header\s*\{[\s\S]*?\}/)?.[0] ?? '';
+  assert.match(base, /position: fixed/);
+  assert.match(base, /height: 48px/);
+  assert.match(base, /backdrop-filter: blur\(18px\)/);
+  assert.match(base, /opacity: 0/);
+  assert.match(css, /\.site-header\.is-visible,\s*\.site-header:focus-within\s*\{[^}]*opacity: 1/);
 });

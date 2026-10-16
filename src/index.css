@@ -114,14 +114,31 @@ button {
 /* Header ------------------------------------------------------------ */
 
 .site-header {
-  position: absolute;
+  position: fixed;
   inset: 0 0 auto;
-  z-index: 10;
+  z-index: 50;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: clamp(18px, 2.4vw, 30px) var(--page-gutter);
+  padding: 0 var(--page-gutter);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(5, 5, 7, 0.5);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* Hidden until the page is scrolled, but still reachable (and revealed) by keyboard focus. */
+.site-header.is-visible,
+.site-header:focus-within {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
 }
 
 .site-header__brand {
@@ -131,7 +148,7 @@ button {
 
 .site-header__logo {
   display: block;
-  height: 18px;
+  height: 16px;
   width: auto;
   opacity: 0.8;
   transition: opacity 0.2s ease;
@@ -144,13 +161,13 @@ button {
 .site-header__links {
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2.4vw, 32px);
+  gap: clamp(16px, 2.2vw, 28px);
 }
 
 .site-header__links a {
   position: relative;
-  color: rgba(225, 221, 232, 0.56);
-  font-size: 14px;
+  color: rgba(225, 221, 232, 0.6);
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: -0.01em;
   text-decoration: none;
@@ -177,6 +194,10 @@ button {
 .site-header__links a:hover::after {
   transform: scaleX(1);
   transform-origin: left center;
+}
+
+.site-header__short {
+  display: none;
 }
 
 .site-header a:focus-visible {
@@ -1566,12 +1587,28 @@ button {
 }
 
 @media (max-width: 430px) {
+  .site-header {
+    gap: 14px;
+  }
+
   .site-header__logo {
-    height: 16px;
+    height: 14px;
   }
 
   .site-header__links {
-    gap: 18px;
+    gap: 14px;
+  }
+
+  .site-header__links a {
+    font-size: 12.5px;
+  }
+
+  .site-header__long {
+    display: none;
+  }
+
+  .site-header__short {
+    display: inline;
   }
 
   .film {

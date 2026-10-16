@@ -1,7 +1,7 @@
 export default function SiteFooter() {
   return (
     <footer className="footer">
-      <a className="footer__discord" href="https://discord.gg/f7bnZ3cmq" target="_blank" rel="noreferrer">
+      <a className="footer__discord" href="https://discord.gg/QmQ54MArrB" target="_blank" rel="noreferrer">
         <svg aria-hidden="true"><use href="/icons.svg#discord-icon" /></svg>
         <strong>Join our Discord and give feedback</strong>
       </a>
