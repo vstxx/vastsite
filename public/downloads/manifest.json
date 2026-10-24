@@ -1,10 +1,85 @@
 {
   "releases": [
     {
+      "version": "0.5.5",
+      "previousVersion": "0.5.0",
+      "date": "2026-10-24",
+      "channel": "Official",
+      "description": "Vast 0.5.5 brings Chrome Web Store browsing, Visual Profiles, calling-app permissions, and a newer browser engine.",
+      "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.5.5",
+      "documentationUrl": "https://docs.vastbrowser.com/releases/0-5-5/",
+      "changelog": [
+        {
+          "title": "What's new",
+          "items": [
+            "Browse the Chrome Web Store inside Vast and install extensions with the Install in Vast button.",
+            "Save, share, and switch your whole look with Visual Profiles (.vastvisual files).",
+            "Google Meet, Zoom, Microsoft Teams, and other calling apps can ask for your camera and microphone.",
+            "New Background blur, Transparency, and Frost controls, a neutral dark theme, and a horizontal tab strip that scrolls instead of hiding tabs."
+          ]
+        },
+        {
+          "title": "Improvements and fixes",
+          "items": [
+            "Vast always shows its window after an automatic update, and opening Vast again brings it forward.",
+            "Runs on a newer patched browser engine (Electron 45, Chromium 156).",
+            "Faster startup with many tabs or extensions, and smoother tab closing, scrolling, and side panel lists.",
+            "Custom New Tab wallpapers work at any size, and address bar suggestions open only after you type."
+          ]
+        },
+        {
+          "title": "Important upgrade information",
+          "items": [
+            "Direct installations on 0.5.0 or 0.5.4 update automatically through the stable update channel. Users on 0.4.2 must run the 0.5.5 setup installer or standalone updater once; their browser profile is preserved.",
+            "Portable users should download the new Portable executable. Microsoft Store uses a separate release and update process, and its available version may differ."
+          ]
+        },
+        {
+          "title": "Known limitations",
+          "items": [
+            "Manifest V2 extensions that block web requests stay installed but are not loaded on the new browser engine. Adblocker for Vast is not affected. Extensions are unavailable in private or ephemeral workspaces.",
+            "Extension and external password-manager compatibility varies. Basic password-manager canaries passed, but this is not a universal compatibility certification."
+          ]
+        }
+      ],
+      "notes": [
+        "Direct installer, Portable executable, and standalone updater are intentionally unsigned. Windows may show Unknown publisher or SmartScreen warnings. Verify the published SHA-256 checksum before running an executable.",
+        "0.5.4 was withdrawn on its release day because Vast could start without a window after its automatic update. If that happened, restart Windows or end Vast in Task Manager, then open Vast to update to 0.5.5.",
+        "The 0.4.2 updater handoff is unreliable. If you use 0.4.2, close Vast and manually run the 0.5.5 setup installer or standalone updater once. Direct 0.4.3 and later installations update automatically through stable-v2.",
+        "Portable installations require the new Portable executable. Microsoft Store uses a separate package, profile, certification, and update channel; Store availability for 0.5.5 is unconfirmed."
+      ],
+      "files": [
+        {
+          "label": "Download installer",
+          "file": "Vast-Setup-0.5.5.exe",
+          "size": "311.03 MiB",
+          "bytes": 326142660,
+          "sha256": "015c1b395bb267f6197445d9ae8963e0e66a3b11ee8f7a800e6dc539c295e0a6",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.5/Vast-Setup-0.5.5.exe"
+        },
+        {
+          "label": "Download portable",
+          "file": "Vast-0.5.5-Portable.exe",
+          "size": "263.44 MiB",
+          "bytes": 276240830,
+          "sha256": "7c2c5a941995948138a05be689b6812eac55fb2ae0ccd2160e4061f46f537c1e",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.5/Vast-0.5.5-Portable.exe"
+        },
+        {
+          "label": "Download updater",
+          "file": "VastUpdater-0.5.5.exe",
+          "size": "33.49 MiB",
+          "bytes": 35118788,
+          "sha256": "57d418d1e47a57b99dbc8389c0428ec752336ebe33d16fd6ab33de93001c14d8",
+          "url": "https://github.com/vstxx/vast-public/releases/download/v0.5.5/VastUpdater-0.5.5.exe"
+        }
+      ]
+    },
+    {
       "version": "0.5.0",
       "previousVersion": "0.4.3",
       "date": "2026-10-14",
-      "channel": "Official",
+      "channel": "Legacy",
       "description": "Vast 0.5.0 improves extension installation, sidebar controls, and everyday browser interactions.",
       "releaseUrl": "https://github.com/vstxx/vast-public/releases/tag/v0.5.0",
       "documentationUrl": "https://docs.vastbrowser.com/releases/0-5-0/",

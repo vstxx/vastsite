@@ -18,4 +18,4 @@
 - `notes` is an array of upgrade, security, or availability notices shown with the release.
 - `files` is an array of downloadable GitHub release assets. Each file has a user-facing `label`, exact `file` name, `url`, display `size`, exact `bytes`, and lowercase hexadecimal `sha256` digest.
 
-The current 0.5.0 record in `manifest.json` is the schema example. Its URLs point directly to the versioned GitHub release assets; executables are not uploaded to this website directory. Preserve those URLs for historical releases when adding newer records.
+The current 0.5.5 record in `manifest.json` is the schema example. Its URLs point directly to the versioned GitHub release assets; executables are not uploaded to this website directory. Preserve those URLs for historical releases when adding newer records.

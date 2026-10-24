@@ -206,44 +206,49 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
   const [currentRelease, previousRelease] = releaseManifest.releases;
-  assert.equal(currentRelease.version, '0.5.0');
+  assert.equal(currentRelease.version, '0.5.5');
   assert.equal(currentRelease.channel, 'Official');
-  assert.equal(currentRelease.previousVersion, '0.4.3');
+  assert.equal(currentRelease.previousVersion, '0.5.0');
   assert.ok(Date.parse(currentRelease.date) > Date.parse(previousRelease.date));
-  assert.equal(currentRelease.date, '2026-10-14');
-  assert.equal(currentRelease.releaseUrl, 'https://github.com/vstxx/vast-public/releases/tag/v0.5.0');
-  assert.equal(currentRelease.documentationUrl, 'https://docs.vastbrowser.com/releases/0-5-0/');
+  assert.equal(currentRelease.date, '2026-10-24');
+  assert.equal(currentRelease.releaseUrl, 'https://github.com/vstxx/vast-public/releases/tag/v0.5.5');
+  assert.equal(currentRelease.documentationUrl, 'https://docs.vastbrowser.com/releases/0-5-5/');
   assert.deepEqual(currentRelease.changelog.map((section) => section.title), [
     "What's new", 'Improvements and fixes', 'Important upgrade information', 'Known limitations',
   ]);
   assert.match(currentRelease.notes.join(' '), /unsigned/i);
   assert.match(currentRelease.notes.join(' '), /Store.*separate/i);
   assert.match(currentRelease.notes.join(' '), /0\.4\.2.*manual/i);
-  assert.equal(previousRelease.version, '0.4.3');
+  assert.match(currentRelease.notes.join(' '), /0\.5\.4 was withdrawn/);
+  assert.equal(previousRelease.version, '0.5.0');
   assert.equal(previousRelease.channel, 'Legacy');
-  assert.ok(releaseManifest.releases.every((release) => release.version !== '0.4.0'));
+  assert.equal(previousRelease.files[0].url, 'https://github.com/vstxx/vast-public/releases/download/v0.5.0/Vast-Setup-0.5.0.exe');
+  // Withdrawn releases are never offered.
+  assert.ok(releaseManifest.releases.every((release) => release.version !== '0.4.0' && release.version !== '0.5.4'));
+  assert.equal(releaseManifest.releases[2].version, '0.4.3');
+  assert.equal(releaseManifest.releases[2].channel, 'Legacy');
   const expectedAssets = [
-    ['Vast-Setup-0.5.0.exe', 331167232, '796d5546f64daedf0233a92ceb22aeba8d806cec767659099c85b2b79816431d'],
-    ['Vast-0.5.0-Portable.exe', 277005285, '5dcf2348ba96a79e7a18691ef1a69dc3a8ad6c11827faf55e6dca214ed9ed69f'],
-    ['VastUpdater-0.5.0.exe', 35101452, '70cb481e0dc9ddd8ca421bec851c92554f7d5480bc142e3ba87ca8a8c1721b4d'],
+    ['Vast-Setup-0.5.5.exe', 326142660, '015c1b395bb267f6197445d9ae8963e0e66a3b11ee8f7a800e6dc539c295e0a6'],
+    ['Vast-0.5.5-Portable.exe', 276240830, '7c2c5a941995948138a05be689b6812eac55fb2ae0ccd2160e4061f46f537c1e'],
+    ['VastUpdater-0.5.5.exe', 35118788, '57d418d1e47a57b99dbc8389c0428ec752336ebe33d16fd6ab33de93001c14d8'],
   ];
   assert.deepEqual(currentRelease.files.map(({ file, bytes, sha256 }) => [file, bytes, sha256]), expectedAssets);
   for (const asset of currentRelease.files) {
-    assert.equal(asset.url, `https://github.com/vstxx/vast-public/releases/download/v0.5.0/${asset.file}`);
+    assert.equal(asset.url, `https://github.com/vstxx/vast-public/releases/download/v0.5.5/${asset.file}`);
     const response = await fetch(asset.url, { method: 'HEAD' });
     assert.equal(response.status, 200, `published asset is unavailable: ${asset.url}`);
   }
-  assert.equal(releaseManifest.releases[2].version, '0.4.2');
-  assert.equal(releaseManifest.releases[2].channel, 'Legacy');
-  assert.equal(releaseManifest.releases[3].version, '0.4.1');
+  assert.equal(releaseManifest.releases[3].version, '0.4.2');
   assert.equal(releaseManifest.releases[3].channel, 'Legacy');
-  assert.equal(releaseManifest.releases[4].version, '0.3.0');
+  assert.equal(releaseManifest.releases[4].version, '0.4.1');
   assert.equal(releaseManifest.releases[4].channel, 'Legacy');
-  assert.equal(releaseManifest.releases[4].previousVersion, '0.2.7');
-  assert.match(releaseManifest.releases[4].files[0].url, /vast-public\/releases\/download\/v0\.3\.0/);
-  assert.equal(releaseManifest.releases[4].files[2].file, 'VastUpdater-0.3.0.exe');
-  assert.ok(releaseManifest.releases[4].changelog.length >= 7);
-  const changelog = releaseManifest.releases[4].changelog.flatMap((section) => section.items).join(' ');
+  assert.equal(releaseManifest.releases[5].version, '0.3.0');
+  assert.equal(releaseManifest.releases[5].channel, 'Legacy');
+  assert.equal(releaseManifest.releases[5].previousVersion, '0.2.7');
+  assert.match(releaseManifest.releases[5].files[0].url, /vast-public\/releases\/download\/v0\.3\.0/);
+  assert.equal(releaseManifest.releases[5].files[2].file, 'VastUpdater-0.3.0.exe');
+  assert.ok(releaseManifest.releases[5].changelog.length >= 7);
+  const changelog = releaseManifest.releases[5].changelog.flatMap((section) => section.items).join(' ');
   assert.match(changelog, /workspace session/);
   assert.match(changelog, /PDF Open with/);
   assert.match(changelog, /Corner radius/);
@@ -252,16 +257,16 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(changelog, /Electron 44\.1\.0/);
   assert.match(changelog, /Microsoft Store/);
   assert.match(changelog, /0\.2\.7-to-0\.3\.0/);
-  assert.equal(releaseManifest.releases[5].version, '0.2.7');
-  assert.equal(releaseManifest.releases[5].channel, 'Legacy');
-  assert.match(releaseManifest.releases[5].files[0].url, /vast-public\/releases\/download\/v0\.2\.7/);
-  assert.equal(releaseManifest.releases[6].version, 'Beta 0.2.5');
+  assert.equal(releaseManifest.releases[6].version, '0.2.7');
   assert.equal(releaseManifest.releases[6].channel, 'Legacy');
-  assert.match(releaseManifest.releases[6].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
-  assert.equal(releaseManifest.releases[7].version, 'Beta 0.1.5');
-  assert.match(releaseManifest.releases[7].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
-  assert.equal(releaseManifest.releases[4].releaseUrl, 'https://github.com/vstxx/vast-public/releases/tag/v0.3.0');
-  assert.equal(releaseManifest.releases[4].documentationUrl, 'https://docs.vastbrowser.com/releases/0-3-0/');
+  assert.match(releaseManifest.releases[6].files[0].url, /vast-public\/releases\/download\/v0\.2\.7/);
+  assert.equal(releaseManifest.releases[7].version, 'Beta 0.2.5');
+  assert.equal(releaseManifest.releases[7].channel, 'Legacy');
+  assert.match(releaseManifest.releases[7].files[0].url, /vast-public\/releases\/download\/v0\.2\.5/);
+  assert.equal(releaseManifest.releases[8].version, 'Beta 0.1.5');
+  assert.match(releaseManifest.releases[8].files[0].url, /vast-public\/releases\/download\/public-release-0\.1\.5/);
+  assert.equal(releaseManifest.releases[5].releaseUrl, 'https://github.com/vstxx/vast-public/releases/tag/v0.3.0');
+  assert.equal(releaseManifest.releases[5].documentationUrl, 'https://docs.vastbrowser.com/releases/0-3-0/');
   assert.match(releases, /Download Updater/);
   assert.match(releases, /not Store or Portable/);
   assert.match(releases, /available version may differ/);
