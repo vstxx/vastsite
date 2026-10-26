@@ -676,6 +676,21 @@ button {
   color: rgba(255, 255, 255, 0.72);
 }
 
+.footer__credit {
+  margin: 0;
+  text-align: center;
+}
+
+.footer__credit a {
+  color: rgba(225, 221, 232, 0.62);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.footer__credit a:hover {
+  color: #fff;
+}
+
 .subpage-shell {
   min-height: 100svh;
   display: flex;

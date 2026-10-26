@@ -3,7 +3,7 @@ import { ArrowDown, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { EASE } from './motion';
 
-const HEADLINE = 'Browser built to look and work your way.';
+const HEADLINE = 'Built to look and work your way.';
 const WORDS = HEADLINE.split(' ');
 
 const WORD_DELAY = 0.45;

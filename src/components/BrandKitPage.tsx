@@ -71,6 +71,7 @@ export default function BrandKitPage() {
       <main className="brand-kit">
         <div className="brand-kit__intro">
           <h1>Brand Kit</h1>
+          <p>Built to look and work your way.</p>
         </div>
 
         <section className="brand-kit__section" aria-labelledby="brand-logos">

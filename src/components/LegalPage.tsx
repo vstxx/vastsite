@@ -51,7 +51,6 @@ const notices = {
       ['Acceptable use', 'Do not abuse the platform, evade security controls, upload unlawful material, impersonate others or interfere with review and distribution.'],
       ['Extensions', 'Third-party extensions are independently published software. Review and signing reduce risk but do not guarantee that an extension is free of defects.'],
       ['Enforcement', 'Vast may reject, suspend, delist or preserve evidence for extensions and accounts when required for user safety, policy enforcement or legal compliance. Decisions should remain auditable.'],
-      ['Legal operator', 'The platform operator is Jan Nowacki. Current legal and administrative information is published at vastbrowser.com/legal.'],
     ],
   },
   'publisher-terms': {
@@ -106,6 +105,7 @@ export default function LegalPage({ kind }: { kind: LegalKind }) {
               <div className="legal-group" key={group} id={group}>
                 {grouped && <div className="legal-group__heading"><h2>{notice.title}</h2><p>{notice.intro}</p></div>}
                 {notice.sections.map(([title, body]) => <section key={title}>{grouped ? <h3>{title}</h3> : <h2>{title}</h2>}<p>{body}</p></section>)}
+                {group === 'platform-terms' && <a className="legal-group__source" href="/legal">Current legal operator and contact</a>}
                 {group === 'publisher-terms' && <a className="legal-group__source" href="https://extensions.vastbrowser.com/legal/publisher-terms">Read the current Publisher Terms</a>}
               </div>
             );

@@ -22,6 +22,12 @@
   letter-spacing: -0.055em;
 }
 
+.brand-kit__intro p {
+  margin: 16px 0 0;
+  color: rgba(225, 221, 232, 0.72);
+  font-size: 18px;
+}
+
 .brand-kit__section {
   margin-top: clamp(64px, 7vw, 88px);
   padding-top: 28px;

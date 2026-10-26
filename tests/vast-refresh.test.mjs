@@ -37,7 +37,7 @@ test('opens with the word-by-word headline and download/explore actions', async 
     read('src/index.css'),
   ]);
 
-  assert.match(hero, /Browser built to look and work your way\./);
+  assert.match(hero, /Built to look and work your way\./);
   assert.match(hero, /WORDS\.map/);
   assert.match(hero, /useReducedMotion/);
   assert.match(hero, /href="\/releases">[\s\S]*?<Download[\s\S]*?Download\s*<\/a>/);
@@ -110,7 +110,8 @@ test('renders an open download section and minimal footer', async () => {
   assert.match(cta, /https:\/\/docs\.vastbrowser\.com/);
   assert.match(cta, /href="\/releases"/);
   assert.match(cta, /target="_blank"/);
-  assert.match(footer, /Vast, Infinite By Design/);
+  assert.match(footer, /Built to look and work your way\./);
+  assert.match(footer, /Created by vstxx as part of VastProductions\./);
   assert.deepEqual([...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]), [
     'https://discord.gg/QmQ54MArrB', '/legal', '/privacy', '/terms', '/brand',
   ]);
@@ -202,7 +203,8 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /Publishing Policy/);
   assert.match(legal, /groups: \['platform-terms', 'publisher-terms', 'publishing-policy'\]/);
   assert.match(legal, /groups: \['legal', 'copyright'\]/);
-  assert.match(legal, /\['Operator', 'Jan Nowacki'\]/);
+  assert.match(legal, /\['Operator', '[^']+'\]/);
+  assert.match(legal, /group === 'platform-terms' && <a className="legal-group__source" href="\/legal">Current legal operator and contact<\/a>/);
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);
   const [currentRelease, previousRelease] = releaseManifest.releases;

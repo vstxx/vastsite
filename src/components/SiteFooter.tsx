@@ -6,12 +6,15 @@ export default function SiteFooter() {
         <strong>Join our Discord and give feedback</strong>
       </a>
       <div className="footer__links">
-        <span>Vast, Infinite By Design</span>
+        <span>Built to look and work your way.</span>
         <a href="/legal">Legal</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms of Use</a>
         <a href="/brand">Brand Kit</a>
       </div>
+      <p className="footer__credit">
+        Created by vstxx as part of VastProductions.
+      </p>
     </footer>
   );
 }
