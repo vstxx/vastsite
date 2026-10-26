@@ -111,9 +111,9 @@ test('renders an open download section and minimal footer', async () => {
   assert.match(cta, /href="\/releases"/);
   assert.match(cta, /target="_blank"/);
   assert.match(footer, /Built to look and work your way\./);
-  assert.match(footer, /Created by vstxx as part of VastProductions\./);
+  assert.match(footer, /Created by <a href="https:\/\/vstxx\.com"[^>]*>vstxx<\/a> as part of VastProductions\./);
   assert.deepEqual([...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]), [
-    'https://discord.gg/QmQ54MArrB', '/legal', '/privacy', '/terms', '/brand',
+    'https://discord.gg/QmQ54MArrB', '/legal', '/privacy', '/terms', '/brand', 'https://vstxx.com',
   ]);
   assert.match(footer, /Terms of Use/);
   assert.match(footer, /discord\.gg\/QmQ54MArrB/);
@@ -204,6 +204,7 @@ test('routes to local releases and the complete legal policy set', async () => {
   assert.match(legal, /groups: \['platform-terms', 'publisher-terms', 'publishing-policy'\]/);
   assert.match(legal, /groups: \['legal', 'copyright'\]/);
   assert.match(legal, /\['Operator', '[^']+'\]/);
+  assert.doesNotMatch(legal, /\['Legal operator', 'The platform operator is/);
   assert.match(legal, /group === 'platform-terms' && <a className="legal-group__source" href="\/legal">Current legal operator and contact<\/a>/);
   assert.match(legal, /No separate legal email address is asserted here/);
   const releaseManifest = JSON.parse(manifest);

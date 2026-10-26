@@ -13,7 +13,7 @@ export default function SiteFooter() {
         <a href="/brand">Brand Kit</a>
       </div>
       <p className="footer__credit">
-        Created by vstxx as part of VastProductions.
+        Created by <a href="https://vstxx.com" target="_blank" rel="noreferrer">vstxx</a> as part of VastProductions.
       </p>
     </footer>
   );
