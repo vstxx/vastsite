@@ -9,6 +9,7 @@ import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
 import SupportPage from './components/SupportPage';
 import BrandKitPage from './components/BrandKitPage';
+import SitemapPage from './components/SitemapPage';
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -16,6 +17,7 @@ export default function App() {
   if (path === '/releases') return <ReleasesPage />;
   if (path === '/support') return <SupportPage />;
   if (path === '/brand') return <BrandKitPage />;
+  if (path === '/sitemap') return <SitemapPage />;
   if (path === '/legal') return <LegalPage kind="legal" />;
   if (path === '/privacy') return <LegalPage kind="privacy" />;
   if (path === '/terms') return <LegalPage kind="terms" />;
