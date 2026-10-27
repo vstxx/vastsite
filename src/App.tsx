@@ -1,4 +1,5 @@
 import './index.css';
+import { useEffect } from 'react';
 import SceneCTA from './components/SceneCTA';
 import SceneDetails from './components/SceneDetails';
 import SceneHero from './components/SceneHero';
@@ -9,7 +10,11 @@ import LegalPage from './components/LegalPage';
 import ReleasesPage from './components/ReleasesPage';
 import SupportPage from './components/SupportPage';
 import BrandKitPage from './components/BrandKitPage';
-import SitemapPage from './components/SitemapPage';
+
+function SitemapRedirect() {
+  useEffect(() => { window.location.replace('/sitemap/'); }, []);
+  return null;
+}
 
 export default function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -17,7 +22,7 @@ export default function App() {
   if (path === '/releases') return <ReleasesPage />;
   if (path === '/support') return <SupportPage />;
   if (path === '/brand') return <BrandKitPage />;
-  if (path === '/sitemap') return <SitemapPage />;
+  if (path === '/sitemap') return <SitemapRedirect />;
   if (path === '/legal') return <LegalPage kind="legal" />;
   if (path === '/privacy') return <LegalPage kind="privacy" />;
   if (path === '/terms') return <LegalPage kind="terms" />;

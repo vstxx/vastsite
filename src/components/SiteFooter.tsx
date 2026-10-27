@@ -11,7 +11,7 @@ export default function SiteFooter() {
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms of Use</a>
         <a href="/brand">Brand Kit</a>
-        <a href="/sitemap">Site Map</a>
+        <a href="/sitemap/">Site Map</a>
       </div>
       <p className="footer__credit">
         Created by <a href="https://vstxx.com" target="_blank" rel="noreferrer">vstxx</a> as part of VastProductions.
