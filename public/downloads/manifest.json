@@ -46,7 +46,7 @@
         "Direct installer, Portable executable, and standalone updater are intentionally unsigned. Windows may show Unknown publisher or SmartScreen warnings. Verify the published SHA-256 checksum before running an executable.",
         "0.5.4 was withdrawn on its release day because Vast could start without a window after its automatic update. If that happened, restart Windows or end Vast in Task Manager, then open Vast to update to 0.5.5.",
         "The 0.4.2 updater handoff is unreliable. If you use 0.4.2, close Vast and manually run the 0.5.5 setup installer or standalone updater once. Direct 0.4.3 and later installations update automatically through stable-v2.",
-        "Portable installations require the new Portable executable. Microsoft Store uses a separate package, profile, certification, and update channel; Store availability for 0.5.5 is unconfirmed."
+        "Portable installations require the new Portable executable. Microsoft Store uses a separate package, profile, certification, and update channel; Vast 0.5.5 is available in Microsoft Store as package 1.2.13.0."
       ],
       "files": [
         {
